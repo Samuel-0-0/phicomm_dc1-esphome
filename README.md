@@ -27,7 +27,7 @@ WiFi模组使用的是芯海的[CSM64F02](https://github.com/Samuel-0-0/dc1-esph
 
 ![image](https://github.com/Samuel-0-0/dc1-esphome-home-assistant/blob/master/image/U7.jpg?raw=true)
 ### U11
-这是一颗电量统计用的芯片，具体型号为[CSE7766](https://github.com/Samuel-0-0/dc1-esphome-home-assistant/blob/master/doc/U11_7766%E7%94%A8%E6%88%B7%E6%89%8B%E5%86%8C.pdf)。
+这是一颗电量统计用的芯片，具体型号为[CSE7766](https://github.com/Samuel-0-0/dc1-esphome-home-assistant/blob/master/doc/U11_CSE7766%E7%94%A8%E6%88%B7%E6%89%8B%E5%86%8C.pdf)。
 
 ![image](https://github.com/Samuel-0-0/dc1-esphome-home-assistant/blob/master/image/U11%E7%94%B5%E9%87%8F%E7%BB%9F%E8%AE%A1%E8%8A%AF%E7%89%87.jpg?raw=true)
 ### 继电器
