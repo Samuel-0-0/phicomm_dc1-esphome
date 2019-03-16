@@ -20,8 +20,10 @@
 ## 已知的一些硬件资料
 #### WiFi模组
 WiFi模组使用的是芯海的CSM64F02，经过分析，这款模组和乐鑫的ESP-WROOM-02是一样的。
+![image](https://github.com/Samuel-0-0/dc1-esphome-home-assistant/blob/master/image/WiFi%E6%A8%A1%E7%BB%84.jpg?raw=true)
 #### U7
 这是一颗扩展类的芯片，具体型号暂时未知。
+![image](https://github.com/Samuel-0-0/dc1-esphome-home-assistant/blob/master/image/U7.jpg?raw=true)
 #### U11
 这是一颗电量统计用的芯片，具体型号为cse7766。
 ![image](https://github.com/Samuel-0-0/dc1-esphome-home-assistant/blob/master/image/U11%E7%94%B5%E9%87%8F%E7%BB%9F%E8%AE%A1%E8%8A%AF%E7%89%87.jpg?raw=true)
@@ -30,7 +32,7 @@ WiFi模组使用的是芯海的CSM64F02，经过分析，这款模组和乐鑫�
 ![image](https://github.com/Samuel-0-0/dc1-esphome-home-assistant/blob/master/image/%E7%BB%A7%E7%94%B5%E5%99%A8.jpg?raw=true)
 
 ## 更新固件方法
-暂无
+等待更新
 
 ## 致谢
 - killadm：  导出原始固件，提供芯片对比图
