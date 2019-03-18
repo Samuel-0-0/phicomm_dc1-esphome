@@ -11,9 +11,9 @@
 
 ## TUDO LIST
 - [x] 分析硬件，获得主要芯片的资料
-- [ ] 确定各引脚对应关系
-- [ ] 控制实现推演
-- [ ] 编写固件
+- [x] 确定各引脚对应关系
+- [x] 控制实现推演
+- [x] 编写固件
 - [ ] 测试功能
 - [ ] 发布
 
@@ -35,13 +35,34 @@ WiFi模组使用的是芯海的[CSM64F02](https://github.com/Samuel-0-0/dc1-esph
 
 ![image](https://github.com/Samuel-0-0/dc1-esphome-home-assistant/blob/master/image/%E7%BB%A7%E7%94%B5%E5%99%A8.jpg?raw=true)
 
+## 各芯片引脚对应关系
+### 主控制板正面
+![image](https://github.com/Samuel-0-0/dc1-esphome-home-assistant/blob/master/image/%E4%B8%BB%E6%8E%A7%E5%88%B6%E6%9D%BF%E6%AD%A3%E9%9D%A2_%E6%A0%87%E6%B3%A8.jpg?raw=true)
+
+### 主控制板背面
+![image](https://github.com/Samuel-0-0/dc1-esphome-home-assistant/blob/master/image/%E4%B8%BB%E6%8E%A7%E5%88%B6%E6%9D%BF%E8%83%8C%E9%9D%A2_%E6%A0%87%E6%B3%A8.jpg?raw=true)
+
+## 当前进度
+![image](https://github.com/Samuel-0-0/dc1-esphome-home-assistant/blob/master/image/DC1_ESPHOME_HomeAssistant.jpg?raw=true)
+
+目前已经实现的功能：
+- WiFi功能正常
+- LOGO灯可控制
+- 能识别出CSE7766，因暂时无法控制继电器，无法测试
+- WiFi灯工作正常，暂未测试控制
+- 总控制开关无法控制，经分析是WiFi模块将控制信号给U7，由U7控制主继电器
+
+未知领域：
+- U7的芯片类型，控制方式
+
 ## 更新固件方法
-等待更新
+暂无
 
 ## 致谢
 - killadm：  导出原始固件，提供芯片对比图
 - 实验幼儿园小二班扛把子：  测试引脚走向
-- Heller： 初期资料整理
+- Heller、巴山耗子： 初期资料整理
+- 风中的summer： 提供清晰的电路板照片
 
 ## 免责申明
 以上纯属个人爱好，因为使用上述方法造成的任何问题，不承担任何责任。
