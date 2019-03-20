@@ -1,4 +1,4 @@
-## 斐讯DC1插座通过ESPHOME接入Home Assistant
+## 斐讯DC1插座利用ESPHOME自制固件方式接入开源智能家居平台
 
 ![image](https://github.com/Samuel-0-0/dc1-esphome-home-assistant/blob/master/image/%E4%BA%A7%E5%93%81%E5%9B%BE2.jpg?raw=true)
 
@@ -12,8 +12,13 @@
 ## TODO LIST
 - [x] 分析硬件，获得主要芯片的资料
 - [x] 确定各引脚对应关系
+- [x] 获得原版固件的log信息（启动、控制）
 - [x] 控制实现推演
-- [x] 编写固件
+- [x] 用逻辑分析仪分析U7的I2C数据
+- [x] 分析U7的IO逻辑
+- [ ] 编写U7控制驱动程序
+- [ ] 电量统计芯片CSE7766功能的实现
+- [x] 编写测试固件
 - [ ] 测试功能
 - [ ] 发布
 
@@ -23,7 +28,7 @@ WiFi模组使用的是芯海的[CSM64F02](https://github.com/Samuel-0-0/dc1-esph
 
 ![image](https://github.com/Samuel-0-0/dc1-esphome-home-assistant/blob/master/image/WiFi%E6%A8%A1%E7%BB%84.jpg?raw=true)
 ### U7
-这是一颗扩展类的芯片，具体型号暂时未知。
+经过分析，这是一颗IO扩展类的芯片，具体型号暂时未知，可能是cat9554的变种。
 
 ![image](https://github.com/Samuel-0-0/dc1-esphome-home-assistant/blob/master/image/U7.jpg?raw=true)
 ### U11
@@ -45,21 +50,26 @@ WiFi模组使用的是芯海的[CSM64F02](https://github.com/Samuel-0-0/dc1-esph
 ## 当前进度
 ![image](https://github.com/Samuel-0-0/dc1-esphome-home-assistant/blob/master/image/DC1_ESPHOME_HomeAssistant.jpg?raw=true)
 
-目前已经实现的功能：
 - WiFi功能正常
 - LOGO灯可控制
 - 能识别出CSE7766，因暂时无法控制继电器，无法测试
 - WiFi灯工作正常，暂未测试控制
 - 总控制开关无法控制，经分析是WiFi模块将控制信号给U7，由U7控制主继电器
+- U7逻辑分析进展顺利，基本确定芯片类型
+- U7测试版驱动完成，可以实现继电器控制驱动
 
-未知领域：
-- U7的芯片类型，控制方式
+
+## 正在进行中
+- 原版固件控制log信息分析
+- 原版固件控制I2C逻辑分析信息和测试驱动逻辑分析对比
+- U7芯片的驱动完善
 
 ## 更新固件方法
 暂无
 
 ## 致谢
-- killadm：  导出原始固件，提供芯片对比图
+- killadm：  导出原始固件，提供WiFi芯片对比图，主控制板WiFi模块、U7移除后的PCB照片，U7逻辑分析数据采集
+- 老妖：U7驱动编写，U7逻辑分析
 - 实验幼儿园小二班扛把子：  测试引脚走向
 - Heller、巴山耗子： 初期资料整理
 - 风中的summer： 提供清晰的电路板照片
