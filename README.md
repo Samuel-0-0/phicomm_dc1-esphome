@@ -19,7 +19,9 @@
 - [ ] 编写U7控制驱动程序
 - [ ] 电量统计芯片CSE7766功能的实现
 - [x] 编写测试固件
-- [ ] 测试功能
+- [ ] 按钮及网络控制功能完善
+- [ ] 断电记忆功能完善
+- [ ] MQTT部分完善
 - [ ] 发布
 
 ## 已知的一些硬件资料
@@ -48,7 +50,7 @@ WiFi模组使用的是芯海的[CSM64F02](https://github.com/Samuel-0-0/dc1-esph
 ![image](https://github.com/Samuel-0-0/dc1-esphome-home-assistant/blob/master/image/%E4%B8%BB%E6%8E%A7%E5%88%B6%E6%9D%BF%E8%83%8C%E9%9D%A2_%E6%A0%87%E6%B3%A8.jpg?raw=true)
 
 ## 当前进度
-![image](https://github.com/Samuel-0-0/dc1-esphome-home-assistant/blob/master/image/DC1_ESPHOME_HomeAssistant.jpg?raw=true)
+![image](https://github.com/Samuel-0-0/phicomm_dc1-esphome/blob/master/cookbook/test2.jpg?raw=true)
 
 - WiFi功能正常
 - LOGO灯可控制
@@ -60,12 +62,29 @@ WiFi模组使用的是芯海的[CSM64F02](https://github.com/Samuel-0-0/dc1-esph
 
 
 ## 正在进行中
-- 原版固件控制log信息分析
 - 原版固件控制I2C逻辑分析信息和测试驱动逻辑分析对比
 - U7芯片的驱动完善
+- 按钮和网络控制优化，记忆功能
 
 ## 更新固件方法
-暂无
+
+<html>
+<table border="0">
+  <tr>
+    <td><img style="width:50px;height:50px" src="https://github.com/Samuel-0-0/phicomm_dc1-esphome/blob/master/cookbook/warning.png?raw=true" alt="warning" /></td>
+    <td><b><font size="5" color="red">请勿带市电操作！！！危险自负！！！</font></b></td>
+  </tr>
+</table>
+</html>
+
+### 拆主控板
+待补充
+### 主控板接线
+![image](https://github.com/Samuel-0-0/phicomm_dc1-esphome/blob/master/cookbook/%E6%8E%A5%E7%BA%BF%E5%9B%BE.jpg?raw=true)
+### 固件配置修改
+待补充
+### 编译固件及刷机操作
+待补充
 
 ## 致谢
 - killadm：  导出原始固件，提供WiFi芯片对比图，主控制板WiFi模块、U7移除后的PCB照片，U7逻辑分析数据采集
