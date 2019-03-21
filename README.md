@@ -77,13 +77,21 @@ WiFi模组使用的是芯海的[CSM64F02](https://github.com/Samuel-0-0/dc1-esph
 </table>
 </html>
 
-### 拆主控板
-待补充
-### 主控板接线
+### 用到的工具
+![image](https://github.com/Samuel-0-0/phicomm_dc1-esphome/blob/master/cookbook/%E6%8B%86%E6%9C%BA%E5%B7%A5%E5%85%B7.jpg?raw=true)
+
+### 1、拆主控板
+![image](https://github.com/Samuel-0-0/phicomm_dc1-esphome/blob/master/cookbook/1.jpg?raw=true)
+![image](https://github.com/Samuel-0-0/phicomm_dc1-esphome/blob/master/cookbook/2.jpg?raw=true)
+![image](https://github.com/Samuel-0-0/phicomm_dc1-esphome/blob/master/cookbook/3.jpg?raw=true)
+![image](https://github.com/Samuel-0-0/phicomm_dc1-esphome/blob/master/cookbook/4.jpg?raw=true)
+![image](https://github.com/Samuel-0-0/phicomm_dc1-esphome/blob/master/cookbook/5.jpg?raw=true)
+![image](https://github.com/Samuel-0-0/phicomm_dc1-esphome/blob/master/cookbook/6.jpg?raw=true)
+### 2、主控板接线
 ![image](https://github.com/Samuel-0-0/phicomm_dc1-esphome/blob/master/cookbook/%E6%8E%A5%E7%BA%BF%E5%9B%BE.jpg?raw=true)
-### 固件配置修改
+### 3、固件配置修改
 待补充
-### 编译固件及刷机操作
+### 4、编译固件及刷机操作
 待补充
 
 ## 致谢
