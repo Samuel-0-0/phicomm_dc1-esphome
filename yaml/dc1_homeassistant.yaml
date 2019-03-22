@@ -1,0 +1,205 @@
+esphome:
+  name: $device_name
+  platform: ESP8266
+  board: esp_wroom_02
+  esphome_core_version:
+    repository: https://github.com/Samuel-0-0/esphome-core.git
+    branch: dc1
+  build_path: build\$device_name
+  esp8266_restore_from_flash: yes
+
+substitutions:
+  device_name: phicomm_dc1
+  wifi_ssid: 'wcdma'
+  wifi_password: '!@#$%cmcc'
+  ota_password: '123456'
+
+wifi:
+  ssid: $wifi_ssid
+  password: $wifi_password
+#需要设置静态地址的改下面的配置
+#  manual_ip:
+#    static_ip: 192.168.178.230
+#    gateway: 192.168.178.1
+#    subnet: 255.255.255.0
+#    dns1: 1.1.1.1
+#    dns2: 1.2.2.1
+  domain: .local
+  reboot_timeout: 120s
+  power_save_mode: none
+
+api:
+
+ota:
+  safe_mode: True
+  password: $ota_password
+  port: 3286
+
+web_server:
+  port: 80
+  css_url: https://esphome.io/_static/webserver-v1.min.css
+  js_url: https://esphome.io/_static/webserver-v1.min.js
+  
+#deep_sleep:
+#  run_duration: 20s
+#  sleep_duration: 50s
+
+i2c:
+  sda: GPIO3
+  scl: GPIO12
+#  scan: True
+  frequency: 20kHz
+
+uart:
+  rx_pin: GPIO13
+  baud_rate: 4800
+
+cat9554:
+  - id: 'cat9554_hub'
+    address: 0x20
+    irq: GPIO4
+
+debug:
+
+logger:
+  hardware_uart: UART1
+  level: DEBUG
+
+sensor:
+  - platform: cse7766
+    voltage:
+      name: ${device_name} voltage
+    current:
+      name: ${device_name} current
+    power:
+      name: ${device_name} power
+    update_interval: 30s
+  - platform: uptime
+    name: ${device_name} uptime
+  - platform: wifi_signal
+    name: ${device_name} wifi_signal
+
+binary_sensor:
+  - platform: status
+    name: ${device_name} status
+  - platform: gpio
+    name: "${device_name} key1"
+    pin:
+      cat9554: cat9554_hub
+      # Use pin number 0
+      number: 0
+      mode: INPUT
+    on_click:
+      then:
+        - switch.toggle: dc1_r1
+  - platform: gpio
+    name: "${device_name} key2"
+    pin:
+      cat9554: cat9554_hub
+      # Use pin number 1
+      number: 1
+      mode: INPUT
+    on_click:
+      then:
+        - switch.toggle: dc1_r2
+  - platform: gpio
+    name: "${device_name} key3"
+    pin:
+      cat9554: cat9554_hub
+      # Use pin number 2
+      number: 2
+      mode: INPUT
+    on_click:
+      then:
+        - switch.toggle: dc1_r3
+  - platform: gpio
+    pin:
+      number: GPIO16
+      mode: INPUT_PULLDOWN_16
+    name: ${device_name} key0
+    on_click:
+      then:
+        - lambda: |-
+            if(id(dc1_r0).state) {
+              id(dc1_r0).turn_off();
+              id(dc1_r1).turn_off();
+              id(dc1_r2).turn_off();
+              id(dc1_r3).turn_off();
+            } else {
+              id(dc1_r0).turn_on();
+              id(dc1_r1).turn_on();
+              id(dc1_r2).turn_on();
+              id(dc1_r3).turn_on();
+            }
+
+status_led:
+  pin: GPIO0
+
+text_sensor:
+  - platform: version
+    name: ${device_name} esphome_version
+    icon: mdi:information-outline
+#  - platform: wifi_info
+#    ip_address:
+#      name: ESP IP Address
+#    ssid:
+#      name: ESP Connected SSID
+#    bssid:
+#      name: ESP Connected BSSID
+
+#script:
+#  - id: my_script
+#    then:
+#      - lambda: 'ESP_LOGD("main", "Hello World!");'
+
+#interval:
+#  interval: 5s
+#  then:
+#    - logger.log: "Interval Run"
+
+switch:
+  - platform: gpio
+    name: "${device_name} realy3"
+    id: dc1_r3
+    pin:
+      cat9554: cat9554_hub
+      # Use pin number 4
+      number: 4
+      mode: OUTPUT
+      inverted: False
+  - platform: gpio
+    name: "${device_name} realy2"
+    id: dc1_r2
+    pin:
+      cat9554: cat9554_hub
+      # Use pin number 5
+      number: 5
+      mode: OUTPUT
+      inverted: False
+  - platform: gpio
+    name: "${device_name} realy1"
+    id: dc1_r1
+    pin:
+      cat9554: cat9554_hub
+      # Use pin number 6
+      number: 6
+      mode: OUTPUT
+      inverted: False
+  - platform: gpio
+    name: "${device_name} realy0"
+    id: dc1_r0
+    pin:
+      cat9554: cat9554_hub
+      # Use pin number 7
+      number: 7
+      mode: OUTPUT
+      inverted: False
+  - platform: gpio
+    pin: GPIO14
+    name: ${device_name} LOGO_light
+    icon: "mdi:power"
+    inverted: True
+    restore_mode: ALWAYS_ON
+  - platform: restart
+    id: restart0
+    name: ${device_name} restart
