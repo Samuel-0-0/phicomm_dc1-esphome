@@ -11,11 +11,13 @@
 
 ## 已支持接入的开源智能家居平台
 以下排序随机，不分优劣。合适自己的就好。
+
 ### 1、Home Assistant
 Home Assistant 是一款基于 Python 的智能家居开源系统，支持众多品牌的智能家居设备，可以轻松实现设备的语音控制、自动化等。
 - [官方网站](https://www.home-assistant.io/)
 - [国内论坛](https://bbs.hassbian.com/forum.php)
-- 关于本固件的讨论帖
+- [关于本固件的讨论帖](https://bbs.hassbian.com/thread-6628-1-1.html)
+
 #### 接入方法
 1. [下载dc1_homeassistant.yaml（在Raw处右键另存为）](https://github.com/Samuel-0-0/phicomm_dc1-esphome/blob/master/yaml/dc1_homeassistant.yaml)
 2. 按照[下面的方法](https://github.com/Samuel-0-0/phicomm_dc1-esphome#%E6%9B%B4%E6%96%B0%E5%9B%BA%E4%BB%B6%E6%96%B9%E6%B3%95)更新固件
@@ -25,8 +27,13 @@ Home Assistant 是一款基于 Python 的智能家居开源系统，支持众多
 
 
 ### 2、ioBroker
-待完善
+ioBroker是物联网的集成平台，为物联网设备提供核心服务，系统管理和统一操作方式。
+[中文资料可以参考这里](https://doc.iobroker.cn/#/_zh-cn/)
+- [官方网站](http://www.iobroker.net)
+- [国内论坛](https://bbs.iobroker.cn)
 
+#### 接入方法
+待补充
 
 ## TODO LIST
 - [x] 分析硬件，获得主要芯片的资料
