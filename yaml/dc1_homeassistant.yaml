@@ -138,8 +138,24 @@ binary_sensor:
     pin:
       number: GPIO16
       mode: INPUT_PULLDOWN_16
-#    on_click:
-#      then:
+    on_click:
+      then:
+        - lambda: |-
+            if (id(dc1_r0).state) {
+              id(dc1_r0).turn_off();
+            } else {
+              id(dc1_r0).turn_on();
+            }
+            if (id(LOGO_light).state) {
+              id(LOGO_light).turn_off();
+            } else {
+              id(LOGO_light).turn_on();
+            }
+            if (id(dc1_power).state) {
+              id(dc1_power).turn_off();
+            } else {
+              id(dc1_power).turn_on();
+            }
 #        - switch.toggle: dc1_r0
 #        - switch.toggle: LOGO_light
 #        - switch.toggle: dc1_power
@@ -205,25 +221,16 @@ switch:
     #总继电器(内部引用，对外隐藏)
     name: "${device_name} realy0"
     id: dc1_r0
+    internal: true
     pin:
       cat9554: cat9554_hub
       # Use pin number 7
       number: 7
       mode: OUTPUT
-      inverted: true
+      inverted: false
   - platform: template
     #虚拟总开关(显示为一个开关)
     name: "${device_name} realy"
-    lambda: |-
-      if (id(dc1_key0).state) {
-        id(dc1_r0).turn_on();
-        id(LOGO_light).turn_on();
-        id(dc1_power).turn_on();
-      } else {
-        id(dc1_r0).turn_off();
-        id(LOGO_light).turn_off();
-        id(dc1_power).turn_off();
-      }
     turn_on_action:
       - switch.turn_on: dc1_r0
       - switch.turn_on: LOGO_light
@@ -237,13 +244,15 @@ switch:
     #内部供电控制
     name: "${device_name} power"
     id: dc1_power
-    inverted: true
+    internal: true
+    inverted: false
   - platform: gpio
     pin: GPIO14
     #LOGO灯
     name: "${device_name} LOGO_light"
     id: LOGO_light
-    inverted: true
+    internal: true
+    inverted: false
 #    restore_mode: ALWAYS_ON
   - platform: restart
     name: "${device_name} restart"
