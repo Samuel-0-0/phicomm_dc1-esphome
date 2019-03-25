@@ -1,22 +1,31 @@
 esphome:
   name: $device_name
   platform: ESP8266
-  board: esp_wroom_02
+  board: $board_model
   esphome_core_version:
+    #指定esphome_core来源
     repository: https://github.com/Samuel-0-0/esphome-core.git
     branch: dc1
   build_path: build\$device_name
   esp8266_restore_from_flash: yes
+  arduino_version: 2.5.0
+  platformio_options:
+    #指定platform-espressif8266来源
+    platform: https://github.com/Samuel-0-0/platform-espressif8266.git#dc1
 
+#--------------------- 只需要改这下面的内容 ---------------------
 substitutions:
-  #设备名称
+  #WiFi芯片版本，型号中带B的为csm64f02_b，不带B的为csm64f02
+  board_model: csm64f02_b
+  #设备名称(多个dc1改成不一样的)
   device_name: phicomm_dc1
   #WiFi_SSID名称
-  wifi_ssid: 'qqq'
+  wifi_ssid: 'SSID'
   #WiFi密码
   wifi_password: '12345678'
   #OTA密码
   ota_password: '123456'
+#--------------------- 只需要改这上面的内容 ---------------------
 
 wifi:
   ssid: $wifi_ssid
@@ -35,7 +44,7 @@ wifi:
 api:
 
 ota:
-  safe_mode: True
+  safe_mode: true
   password: $ota_password
 #  port: 3286
 
@@ -51,7 +60,7 @@ web_server:
 i2c:
   sda: GPIO3
   scl: GPIO12
-#  scan: True
+#  scan: true
   frequency: 20kHz
 
 uart:
@@ -63,12 +72,12 @@ cat9554:
     address: 0x20
     irq: GPIO4
 
-#debug:
+debug:
 
 logger:
-#  hardware_uart: UART1
-#  level: DEBUG
-  level: info
+  hardware_uart: UART1
+  level: DEBUG
+#  level: info
 
 sensor:
   - platform: cse7766
@@ -99,10 +108,10 @@ binary_sensor:
       cat9554: cat9554_hub
       # Use pin number 0
       number: 0
-      mode: INPUT_PULLUP
-    on_click:
+      mode: INPUT
+    on_release:
       then:
-        - switch.toggle: dc1_r1
+        - switch.toggle: switch1
   - platform: gpio
     #第二个按钮(内部引用，对外隐藏)
     name: "${device_name} key2"
@@ -112,10 +121,10 @@ binary_sensor:
       cat9554: cat9554_hub
       # Use pin number 1
       number: 1
-      mode: INPUT_PULLUP
-    on_click:
+      mode: INPUT
+    on_release:
       then:
-        - switch.toggle: dc1_r2
+        - switch.toggle: switch2
   - platform: gpio
     #第三个按钮(内部引用，对外隐藏)
     name: "${device_name} key3"
@@ -125,40 +134,22 @@ binary_sensor:
       cat9554: cat9554_hub
       # Use pin number 2
       number: 2
-      mode: INPUT_PULLUP
-    on_click:
+      mode: INPUT
+    on_release:
       then:
-        - switch.toggle: dc1_r3
+        - switch.toggle: switch3
   - platform: gpio
     #总开关(内部引用，对外隐藏)
     name: "${device_name} key0"
     #是否对外隐藏（true/false）
-    id: dc1_key0
+    id: key0
     internal: true
     pin:
       number: GPIO16
       mode: INPUT_PULLDOWN_16
-    on_click:
+    on_release:
       then:
-        - lambda: |-
-            if (id(dc1_r0).state) {
-              id(dc1_r0).turn_off();
-            } else {
-              id(dc1_r0).turn_on();
-            }
-            if (id(LOGO_light).state) {
-              id(LOGO_light).turn_off();
-            } else {
-              id(LOGO_light).turn_on();
-            }
-            if (id(dc1_power).state) {
-              id(dc1_power).turn_off();
-            } else {
-              id(dc1_power).turn_on();
-            }
-#        - switch.toggle: dc1_r0
-#        - switch.toggle: LOGO_light
-#        - switch.toggle: dc1_power
+        - switch.toggle: switch0
 
 status_led:
   pin: GPIO0
@@ -168,13 +159,13 @@ text_sensor:
     #固件版本
     name: "${device_name} esphome_version"
     icon: mdi:information-outline
-#  - platform: wifi_info
-#    ip_address:
-#      name: "ESP IP Address"
-#    ssid:
-#      name: "ESP Connected SSID"
+  - platform: wifi_info
+    ip_address:
+      name: "${device_name} IP Address"
+    ssid:
+      name: "${device_name} Connected SSID"
 #    bssid:
-#      name: "ESP Connected BSSID"
+#      name: "${device_name} Connected BSSID"
 
 #script:
 #  - id: my_script
@@ -188,9 +179,10 @@ text_sensor:
 
 switch:
   - platform: gpio
-    #继电器3(显示为一个开关)
+    #继电器3(内部引用，对外隐藏)
     name: "${device_name} realy3"
-    id: dc1_r3
+    id: realy3
+    internal: true
     pin:
       cat9554: cat9554_hub
       # Use pin number 4
@@ -198,9 +190,10 @@ switch:
       mode: OUTPUT
       inverted: false
   - platform: gpio
-    #继电器2(显示为一个开关)
+    #继电器2(内部引用，对外隐藏)
     name: "${device_name} realy2"
-    id: dc1_r2
+    id: realy2
+    internal: true
     pin:
       cat9554: cat9554_hub
       # Use pin number 5
@@ -208,9 +201,10 @@ switch:
       mode: OUTPUT
       inverted: false
   - platform: gpio
-    #继电器1(显示为一个开关)
+    #继电器1(内部引用，对外隐藏)
     name: "${device_name} realy1"
-    id: dc1_r1
+    id: realy1
+    internal: true
     pin:
       cat9554: cat9554_hub
       # Use pin number 6
@@ -220,7 +214,7 @@ switch:
   - platform: gpio
     #总继电器(内部引用，对外隐藏)
     name: "${device_name} realy0"
-    id: dc1_r0
+    id: realy0
     internal: true
     pin:
       cat9554: cat9554_hub
@@ -230,31 +224,71 @@ switch:
       inverted: false
   - platform: template
     #虚拟总开关(显示为一个开关)
-    name: "${device_name} realy"
+    name: "${device_name} switch0"
+    id: switch0
+    lambda: return id(realy0).state;
     turn_on_action:
-      - switch.turn_on: dc1_r0
+      - switch.turn_on: realy0
       - switch.turn_on: LOGO_light
-      - switch.turn_on: dc1_power
     turn_off_action:
-      - switch.turn_off: dc1_r0
+      - switch.turn_off: realy0
       - switch.turn_off: LOGO_light
-      - switch.turn_off: dc1_power
-  - platform: gpio
-    pin: GPIO2
-    #内部供电控制
-    name: "${device_name} power"
-    id: dc1_power
-    internal: true
-    inverted: false
+      - switch.turn_off: realy1
+      - switch.turn_off: realy2
+      - switch.turn_off: realy3
+#      - lambda: |-
+#          if (id(realy1).state) {
+#            id(switch1).turn_off();
+#          }
+#          if (id(realy2).state) {
+#            id(switch2).turn_off();
+#          }
+#          if (id(realy3).state) {
+#            id(switch3).turn_off();
+#          }
+  - platform: template
+    #虚拟开关1(显示为一个开关)
+    name: "${device_name} switch1"
+    id: switch1
+    lambda: return id(realy1).state;
+    turn_on_action:
+      - switch.turn_on: realy1
+      - lambda: |-
+          if (!id(realy0).state) {
+            id(switch0).turn_on();
+          }
+    turn_off_action:
+      - switch.turn_off: realy1
+  - platform: template
+    #虚拟开关2(显示为一个开关)
+    name: "${device_name} switch2"
+    id: switch2
+    lambda: return id(realy2).state;
+    turn_on_action:
+      - switch.turn_on: realy2
+      - lambda: |-
+          if (!id(realy0).state) {
+            id(switch0).turn_on();
+          }
+    turn_off_action:
+      - switch.turn_off: realy2
+  - platform: template
+    #虚拟开关3(显示为一个开关)
+    name: "${device_name} switch3"
+    id: switch3
+    lambda: return id(realy3).state;
+    turn_on_action:
+      - switch.turn_on: realy3
+      - lambda: |-
+          if (!id(realy0).state) {
+            id(switch0).turn_on();
+          }
+    turn_off_action:
+      - switch.turn_off: realy3
   - platform: gpio
     pin: GPIO14
     #LOGO灯
     name: "${device_name} LOGO_light"
     id: LOGO_light
-    internal: true
-    inverted: false
-#    restore_mode: ALWAYS_ON
-  - platform: restart
-    name: "${device_name} restart"
-    id: device_restart
-
+    internal: false
+    inverted: true
