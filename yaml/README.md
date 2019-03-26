@@ -30,7 +30,7 @@ substitutions:
 关于WiFi模组版本的选择，请查看下图，找出自己对应的芯片版本即可。
 看红色箭头的位置，带B的为csm64f02_b，不带B的为csm64f02
 
-![image](https://github.com/Samuel-0-0/esphome-tools-dc1/blob/master/%E6%A8%A1%E7%BB%84%E5%9E%8B%E5%8F%B7%E9%80%89%E6%8B%A9.jpg?raw=true)
+![image](https://github.com/Samuel-0-0/phicomm_dc1-esphome/blob/master/yaml/%E6%A8%A1%E7%BB%84%E5%9E%8B%E5%8F%B7%E9%80%89%E6%8B%A9.jpg?raw=true)
 
 ### 3、搭建编译环境及刷固件
 **因platformio需要python2.7的环境，所以python2.7为必须。**
@@ -40,7 +40,7 @@ substitutions:
 
 - Windows 32位系统
 
-> 这个版本居然现在还有人用。
+> 这个版本居然现在还有人用。待更新。
 
 - MacOS
 

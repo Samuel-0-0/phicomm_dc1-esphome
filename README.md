@@ -22,8 +22,8 @@ Home Assistant 是一款基于 Python 的智能家居开源系统，支持众多
 - [关于本固件的讨论帖](https://bbs.hassbian.com/thread-6628-1-1.html)
 
 #### 接入方法
-1. 下载[dc1_homeassistant.yaml](https://raw.githubusercontent.com/Samuel-0-0/phicomm_dc1-esphome/master/yaml/dc1_homeassistant.yaml)（右键另存为）
-2. 按照[更新固件方法](https://github.com/Samuel-0-0/phicomm_dc1-esphome/tree/master/cookbook)更新固件
+1. 按照[TTL接线方法](https://github.com/Samuel-0-0/phicomm_dc1-esphome/tree/master/cookbook)接线
+2. 按照[固件编译及刷固件方法](https://github.com/Samuel-0-0/phicomm_dc1-esphome/tree/master/yaml)更新固件
 3. Home Assistant中[设置]-[集成]-添加esphome组件
 4. 输入dc1对应的ip地址
 5. 配置lovelace
