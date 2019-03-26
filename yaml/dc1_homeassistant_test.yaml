@@ -5,7 +5,7 @@ esphome:
   esphome_core_version:
     #指定esphome_core来源
     repository: https://github.com/Samuel-0-0/esphome-core.git
-    branch: dc1
+    branch: dc1-test
   build_path: build\$device_name
   esp8266_restore_from_flash: yes
   arduino_version: 2.5.0
@@ -38,10 +38,14 @@ wifi:
 #    dns1: 1.1.1.1
 #    dns2: 1.2.2.1
   domain: .local
+  #WiFi离线多久后重启设备，秒s，分钟min，小时h
   reboot_timeout: 300s
   power_save_mode: none
 
+#不使用api与设备连接的话删除api配置
 api:
+  #与客户端（如Home Assistant）失去连接多久后重启设备，秒s，分钟min，小时h
+  reboot_timeout: 300s
 
 ota:
   safe_mode: true
@@ -72,12 +76,12 @@ cat9554:
     address: 0x20
     irq: GPIO4
 
-debug:
+#debug:
 
 logger:
-  hardware_uart: UART1
-  level: DEBUG
-#  level: info
+#  hardware_uart: UART1
+#  level: DEBUG
+  level: info
 
 sensor:
   - platform: cse7766

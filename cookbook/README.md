@@ -1,7 +1,7 @@
 ## 项目情况
 关于项目的情况，请[查看这里](https://github.com/Samuel-0-0/phicomm_dc1-esphome/blob/master/README.md)。
 
-## 更新固件方法
+## TTL接线方法
 
 ![image](https://github.com/Samuel-0-0/phicomm_dc1-esphome/blob/master/cookbook/image/warning_50px.png?raw=true) |  请勿带市电操作！！！危险自负！！！
 ---|---
@@ -30,5 +30,6 @@
 ![image](https://github.com/Samuel-0-0/phicomm_dc1-esphome/blob/master/cookbook/image/%E6%8E%A5%E7%BA%BF%E5%9B%BE.jpg?raw=true)
 ![image](https://github.com/Samuel-0-0/phicomm_dc1-esphome/blob/master/cookbook/image/TTL%E6%8E%A5%E7%BA%BF.jpg)
 
-### 3、固件配置修改、编译固件及刷机操作
-使用DC1固件生成、刷写工具，请到[这里查看具体的使用方法](https://github.com/Samuel-0-0/esphome-tools-dc1)
+### 3、配置文件下载、修改、编译固件及刷固件操作
+
+请到[这里查看具体的方法](https://github.com/Samuel-0-0/phicomm_dc1-esphome/tree/master/yaml)
