@@ -1,4 +1,4 @@
-## 斐讯DC1插座利用ESPHOME自制固件方式接入开源智能家居平台
+## 斐讯DC1插座利用ESPHome自制固件方式接入开源智能家居平台
 
 ![image](https://github.com/Samuel-0-0/dc1-esphome-home-assistant/blob/master/image/%E4%BA%A7%E5%93%81%E5%9B%BE2.jpg?raw=true)
 
@@ -8,6 +8,9 @@
 已有的方法为内网劫持实现，具体可参考[这里](https://bbs.hassbian.com/thread-5637-1-1.html)。
 
 这次要实现的是通过一个自定义的固件，来完整实现DC1联网控制。
+
+## 为什么选择ESPHome制作固件
+[ESPHome](https://esphome.io/)是一个只需写几行配置文件就可以实现ESP8266/ESP32接入智能家居系统的强大开源项目。其极高的可扩展性和易用性是本次选择的主要原因。 
 
 ## 已支持接入的开源智能家居平台
 以下排序随机，不分优劣。合适自己的就好。
@@ -19,18 +22,22 @@ Home Assistant 是一款基于 Python 的智能家居开源系统，支持众多
 - [关于本固件的讨论帖](https://bbs.hassbian.com/thread-6628-1-1.html)
 
 #### 接入方法
-1. [下载dc1_homeassistant.yaml（在Raw处右键另存为）](https://github.com/Samuel-0-0/phicomm_dc1-esphome/blob/master/yaml/dc1_homeassistant.yaml)
-2. 按照[下面的方法](https://github.com/Samuel-0-0/phicomm_dc1-esphome#%E6%9B%B4%E6%96%B0%E5%9B%BA%E4%BB%B6%E6%96%B9%E6%B3%95)更新固件
-3. Home Assistant中添加esphome组件
+1. 下载[dc1_homeassistant.yaml](https://raw.githubusercontent.com/Samuel-0-0/phicomm_dc1-esphome/master/yaml/dc1_homeassistant.yaml)（右键另存为）
+2. 按照[更新固件方法](https://github.com/Samuel-0-0/phicomm_dc1-esphome/tree/master/cookbook)更新固件
+3. Home Assistant中[设置]-[集成]-添加esphome组件
 4. 输入dc1对应的ip地址
 5. 配置lovelace
 
-
 ### 2、ioBroker
-ioBroker是物联网的集成平台，为物联网设备提供核心服务，系统管理和统一操作方式。
-[中文资料可以参考这里](https://doc.iobroker.cn/#/_zh-cn/)
+ioBroker是基于nodejs的物联网的集成平台，为物联网设备提供核心服务，系统管理和统一操作方式。
 - [官方网站](http://www.iobroker.net)
+- [中文资料可以参考这里](https://doc.iobroker.cn/#/_zh-cn/)
 - [国内论坛](https://bbs.iobroker.cn)
+#### 接入方法
+待补充
+
+### 3、其他支持mqtt的平台
+理论上来说，只要是支持mqtt的平台都可以实现接入。
 
 #### 接入方法
 待补充
@@ -50,38 +57,12 @@ ioBroker是物联网的集成平台，为物联网设备提供核心服务，系
 - [ ] MQTT部分完善
 
 ## 可能存在的BUG
-- 按钮控制暂时因为配置问题，需要按2次
+- 按钮控制问题已修复，缺少总开关闭时其他开关状态的保存与下次恢复功能
 - 电量统计可能会有问题，还需测试优化
 
 ## 正在进行中
 - 按钮控制优化，记忆功能
 - MQTT功能增加
-
-## 更新固件方法
-
-<html>
-<table border="0">
-  <tr>
-    <td><img style="width:50px;height:50px" src="https://github.com/Samuel-0-0/phicomm_dc1-esphome/blob/master/cookbook/warning.png?raw=true" alt="warning" /></td>
-    <td><b><font size="5" color="red">请勿带市电操作！！！危险自负！！！</font></b></td>
-  </tr>
-</table>
-</html>
-
-### 用到的工具
-![image](https://github.com/Samuel-0-0/phicomm_dc1-esphome/blob/master/cookbook/%E6%8B%86%E6%9C%BA%E5%B7%A5%E5%85%B7.jpg?raw=true)
-
-### 1、拆主控板
-![image](https://github.com/Samuel-0-0/phicomm_dc1-esphome/blob/master/cookbook/1.jpg?raw=true)
-![image](https://github.com/Samuel-0-0/phicomm_dc1-esphome/blob/master/cookbook/2.jpg?raw=true)
-![image](https://github.com/Samuel-0-0/phicomm_dc1-esphome/blob/master/cookbook/3.jpg?raw=true)
-![image](https://github.com/Samuel-0-0/phicomm_dc1-esphome/blob/master/cookbook/4.jpg?raw=true)
-![image](https://github.com/Samuel-0-0/phicomm_dc1-esphome/blob/master/cookbook/5.jpg?raw=true)
-![image](https://github.com/Samuel-0-0/phicomm_dc1-esphome/blob/master/cookbook/6.jpg?raw=true)
-### 2、主控板接线
-![image](https://github.com/Samuel-0-0/phicomm_dc1-esphome/blob/master/cookbook/%E6%8E%A5%E7%BA%BF%E5%9B%BE.jpg?raw=true)
-### 3、固件配置修改、编译固件及刷机操作
-使用DC1固件生成、刷写工具，[请到这里查看具体的使用方法](https://github.com/Samuel-0-0/esphome-tools-dc1)
 
 # 开发过程回顾
 ## 1、已知的一些硬件资料
