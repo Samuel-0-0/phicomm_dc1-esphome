@@ -23,8 +23,16 @@ substitutions:
   wifi_ssid: '2L'
   #WiFi密码
   wifi_password: '1122334455'
+  #如果SSID是隐藏的，设置为true
+  wifi_fast_connect: 'false'
+  #WiFi离线多久后重启设备，秒s，分钟min，小时h
+  wifi_reboot_timeout: 600s
   #OTA密码
   ota_password: '123456'
+  #与客户端（如Home Assistant）失去连接多久后重启设备，秒s，分钟min，小时h
+  api_reboot_timeout: 600s
+  #电量统计的数据更新时间，秒s，分钟min，小时h
+  cse7766_update_interval: 30s
 #--------------------- 只需要改这上面的内容 ---------------------
 
 wifi:
@@ -38,14 +46,13 @@ wifi:
 #    dns1: 1.1.1.1
 #    dns2: 1.2.2.1
   domain: .local
-  #WiFi离线多久后重启设备，秒s，分钟min，小时h
-  reboot_timeout: 300s
+  reboot_timeout: $wifi_reboot_timeout
   power_save_mode: none
+  fast_connect: $wifi_fast_connect
 
 #不使用api与设备连接的话删除api配置
 api:
-  #与客户端（如Home Assistant）失去连接多久后重启设备，秒s，分钟min，小时h
-  reboot_timeout: 300s
+  reboot_timeout: $api_reboot_timeout
 
 ota:
   safe_mode: true
@@ -67,14 +74,14 @@ i2c:
 #  scan: true
   frequency: 20kHz
 
-uart:
-  rx_pin: GPIO13
-  baud_rate: 4800
-
 cat9554:
   - id: cat9554_hub
     address: 0x20
     irq: GPIO4
+
+uart:
+  rx_pin: GPIO13
+  baud_rate: 4800
 
 #debug:
 
@@ -91,7 +98,7 @@ sensor:
 #      name: "${device_name} current"
     power:
       name: "${device_name} power"
-    update_interval: 30s
+    update_interval: $cse7766_update_interval
   - platform: uptime
     name: "${device_name} uptime"
   - platform: wifi_signal
@@ -239,15 +246,15 @@ switch:
       - switch.turn_on: LOGO_light
       - lambda: |-
           if (id(shadow1).state) {
-            id(switch1).turn_on();
+            id(realy1).turn_on();
             id(shadow1).publish_state(false);
           }
           if (id(shadow2).state) {
-            id(switch2).turn_on();
+            id(realy2).turn_on();
             id(shadow2).publish_state(false);
           }
           if (id(shadow3).state) {
-            id(switch3).turn_on();
+            id(realy3).turn_on();
             id(shadow3).publish_state(false);
           }
     turn_off_action:
@@ -255,15 +262,15 @@ switch:
       - switch.turn_off: LOGO_light
       - lambda: |-
           if (id(realy1).state) {
-            id(switch1).turn_off();
+            id(realy1).turn_off();
             id(shadow1).publish_state(true);
           }
           if (id(realy2).state) {
-            id(switch2).turn_off();
+            id(realy2).turn_off();
             id(shadow2).publish_state(true);
           }
           if (id(realy3).state) {
-            id(switch3).turn_off();
+            id(realy3).turn_off();
             id(shadow3).publish_state(true);
           }
   - platform: template
@@ -272,10 +279,11 @@ switch:
     id: switch1
     lambda: return id(realy1).state;
     turn_on_action:
-      - switch.turn_on: realy1
       - lambda: |-
           if (!id(realy0).state) {
             id(switch0).turn_on();
+          } else {
+          id(realy1).turn_on();
           }
     turn_off_action:
       - switch.turn_off: realy1
@@ -285,10 +293,11 @@ switch:
     id: switch2
     lambda: return id(realy2).state;
     turn_on_action:
-      - switch.turn_on: realy2
       - lambda: |-
           if (!id(realy0).state) {
             id(switch0).turn_on();
+          } else {
+          id(realy2).turn_on();
           }
     turn_off_action:
       - switch.turn_off: realy2
@@ -296,12 +305,13 @@ switch:
     #虚拟开关3(显示为一个开关)
     name: "${device_name} switch3"
     id: switch3
-    lambda: return id(realy3).state;
     turn_on_action:
       - switch.turn_on: realy3
       - lambda: |-
           if (!id(realy0).state) {
             id(switch0).turn_on();
+          } else {
+          id(realy3).turn_on();
           }
     turn_off_action:
       - switch.turn_off: realy3
