@@ -34,26 +34,28 @@ substitutions:
 
 ### 3、搭建编译环境及刷固件
 **因platformio需要python2.7的环境，所以python2.7为必须。**
-- Windows 64位系统
+- Windows 系统
 
-> 使用DC1刷机工具包，免搭建直接用，[这里查看详情](https://github.com/Samuel-0-0/esphome-tools-dc1)
+1. 下载 [git安装包-64位](https://github.com/git-for-windows/git/releases/download/v2.21.0.windows.1/PortableGit-2.21.0-64-bit.7z.exe) / [git安装包-32位](https://github.com/git-for-windows/git/releases/download/v2.21.0.windows.1/PortableGit-2.21.0-32-bit.7z.exe)
+2. 下载 [python2.7安装包-64位](https://www.python.org/ftp/python/2.7.16/python-2.7.16.amd64.msi) / [python2.7安装包-32位](https://www.python.org/ftp/python/2.7.16/python-2.7.16.msi)
+3. 下载 [DC1刷机工具（自搭环境版）](https://github.com/Samuel-0-0/esphome-tools-dc1) 并解压
+4. 解压Git安装包内所有文件到Prerequisites\git里面，如下图
+5. 安装python到指定位置，如下图
+6. 运行DC1工具箱，选择(2)升级编译环境，等待完成。
 
-- Windows 32位系统
-
-> 这个版本居然现在还有人用。待更新。
 
 - MacOS
 
 > MacOS自带python2.7，所以无需再安装。
 
-> 从[此处下载esphome](https://github.com/Samuel-0-0/esphome-core)（打开页面后，右上角「 Clone or download 」 → 「 Download ZIP 」），下载后解压缩。
+> [从此处下载esphome](https://github.com/Samuel-0-0/esphome-core)（打开页面后，右上角「 Clone or download 」 → 「 Download ZIP 」），下载后解压缩。
 
-> 打开终端，执行如下命令：
-
+> 打开终端，执行如下命令：（如需python虚拟环境，请自行配置virtualenv）
 ```
 # 进入esphome的setup.py所在目录
 cd xxxxx
 # 编译 esphome
+# 如提示权限不足，命令前加上sudo
 python setup.py build
 # 安装 esphome
 python setup.py install
@@ -61,7 +63,7 @@ python setup.py install
 cd xxxxx
 # 编译固件(xxxxx.yaml为你的配置文件名字)
 esphome xxxxx.yaml compile
-# 刷固件
+# 刷固件（线刷或者OTA皆可）
 esphome xxxxx.yaml upload
 ```
 

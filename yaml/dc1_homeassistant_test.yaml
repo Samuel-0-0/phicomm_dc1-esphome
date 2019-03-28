@@ -4,6 +4,9 @@ esphome:
   board: $board_model
   esphome_core_version:
     #指定esphome_core来源
+    #指定本地来源
+    #local: path/to/esphome-core
+    #指定外部来源
     repository: https://github.com/Samuel-0-0/esphome-core.git
     branch: dc1-test
   build_path: build\$device_name
@@ -120,9 +123,15 @@ binary_sensor:
       # Use pin number 0
       number: 0
       mode: INPUT
-    on_release:
-      then:
-        - switch.toggle: switch1
+    filters:
+      - invert:
+      - delayed_on: 40ms
+      - delayed_off: 40ms
+    on_click:
+      - min_length: 50ms
+        max_length: 350ms
+        then:
+          - switch.toggle: switch1
   - platform: gpio
     #第二个按钮(内部引用，对外隐藏)
     name: "${device_name} key2"
@@ -133,9 +142,15 @@ binary_sensor:
       # Use pin number 1
       number: 1
       mode: INPUT
-    on_release:
-      then:
-        - switch.toggle: switch2
+    filters:
+      - invert:
+      - delayed_on: 40ms
+      - delayed_off: 40ms
+    on_click:
+      - min_length: 50ms
+        max_length: 350ms
+        then:
+          - switch.toggle: switch2
   - platform: gpio
     #第三个按钮(内部引用，对外隐藏)
     name: "${device_name} key3"
@@ -146,9 +161,15 @@ binary_sensor:
       # Use pin number 2
       number: 2
       mode: INPUT
-    on_release:
-      then:
-        - switch.toggle: switch3
+    filters:
+      - invert:
+      - delayed_on: 40ms
+      - delayed_off: 40ms
+    on_click:
+      - min_length: 50ms
+        max_length: 350ms
+        then:
+          - switch.toggle: switch3
   - platform: gpio
     #总开关(内部引用，对外隐藏)
     name: "${device_name} key0"
@@ -158,9 +179,15 @@ binary_sensor:
     pin:
       number: GPIO16
       mode: INPUT_PULLDOWN_16
-    on_release:
-      then:
-        - switch.toggle: switch0
+    filters:
+      - invert:
+      - delayed_on: 40ms
+      - delayed_off: 40ms
+    on_click:
+      - min_length: 50ms
+        max_length: 350ms
+        then:
+          - switch.toggle: switch0
   #影子
   - platform: template
     name: "shadow1"
@@ -174,13 +201,19 @@ binary_sensor:
     name: "shadow3"
     id: shadow3
     internal: true
+    
 #WiFi状态灯
 status_led:
   pin: GPIO0
 
 text_sensor:
+  - platform: template
+    #配置文件版本
+    name: "${device_name} config_version"
+    lambda: |-
+      return {"v2019.03.28"};
   - platform: version
-    #固件版本
+    #esphome版本
     name: "${device_name} esphome_version"
     icon: mdi:information-outline
   - platform: wifi_info
@@ -191,12 +224,10 @@ text_sensor:
 #    bssid:
 #      name: "${device_name} Connected BSSID"
 
-switch:
+output:
   - platform: gpio
     #继电器3(内部引用，对外隐藏)
-    name: "${device_name} realy3"
     id: realy3
-    internal: true
     pin:
       cat9554: cat9554_hub
       # Use pin number 4
@@ -205,9 +236,7 @@ switch:
       inverted: false
   - platform: gpio
     #继电器2(内部引用，对外隐藏)
-    name: "${device_name} realy2"
     id: realy2
-    internal: true
     pin:
       cat9554: cat9554_hub
       # Use pin number 5
@@ -216,9 +245,7 @@ switch:
       inverted: false
   - platform: gpio
     #继电器1(内部引用，对外隐藏)
-    name: "${device_name} realy1"
     id: realy1
-    internal: true
     pin:
       cat9554: cat9554_hub
       # Use pin number 6
@@ -227,94 +254,86 @@ switch:
       inverted: false
   - platform: gpio
     #总继电器(内部引用，对外隐藏)
-    name: "${device_name} realy0"
     id: realy0
-    internal: true
     pin:
       cat9554: cat9554_hub
       # Use pin number 7
       number: 7
       mode: OUTPUT
       inverted: false
-  - platform: template
-    #虚拟总开关(显示为一个开关)
+
+switch:
+  - platform: output
+    #总开关(显示为一个开关)
     name: "${device_name} switch0"
+    output: realy0
     id: switch0
-    lambda: return id(realy0).state;
-    turn_on_action:
-      - switch.turn_on: realy0
+    on_turn_on:
       - switch.turn_on: LOGO_light
       - lambda: |-
           if (id(shadow1).state) {
-            id(realy1).turn_on();
+            id(switch1).turn_on();
             id(shadow1).publish_state(false);
           }
           if (id(shadow2).state) {
-            id(realy2).turn_on();
+            id(switch2).turn_on();
             id(shadow2).publish_state(false);
           }
           if (id(shadow3).state) {
-            id(realy3).turn_on();
+            id(switch3).turn_on();
             id(shadow3).publish_state(false);
           }
-    turn_off_action:
-      - switch.turn_off: realy0
+    on_turn_off:
       - switch.turn_off: LOGO_light
       - lambda: |-
-          if (id(realy1).state) {
-            id(realy1).turn_off();
+          if (id(switch1).state) {
+            id(switch1).turn_off();
             id(shadow1).publish_state(true);
           }
-          if (id(realy2).state) {
-            id(realy2).turn_off();
+          if (id(switch2).state) {
+            id(switch2).turn_off();
             id(shadow2).publish_state(true);
           }
-          if (id(realy3).state) {
-            id(realy3).turn_off();
+          if (id(switch3).state) {
+            id(switch3).turn_off();
             id(shadow3).publish_state(true);
           }
-  - platform: template
-    #虚拟开关1(显示为一个开关)
+  - platform: output
+    #开关1(显示为一个开关)
     name: "${device_name} switch1"
+    output: realy1
     id: switch1
-    lambda: return id(realy1).state;
-    turn_on_action:
+    on_turn_on:
       - lambda: |-
-          if (!id(realy0).state) {
+          if (!id(switch0).state) {
             id(switch0).turn_on();
           } else {
-          id(realy1).turn_on();
+          id(switch1).turn_on();
           }
-    turn_off_action:
-      - switch.turn_off: realy1
-  - platform: template
-    #虚拟开关2(显示为一个开关)
+  - platform: output
+    #开关2(显示为一个开关)
     name: "${device_name} switch2"
+    output: realy2
     id: switch2
-    lambda: return id(realy2).state;
-    turn_on_action:
+    on_turn_on:
       - lambda: |-
-          if (!id(realy0).state) {
+          if (!id(switch0).state) {
             id(switch0).turn_on();
           } else {
-          id(realy2).turn_on();
+          id(switch2).turn_on();
           }
-    turn_off_action:
-      - switch.turn_off: realy2
-  - platform: template
-    #虚拟开关3(显示为一个开关)
+  - platform: output
+    #开关3(显示为一个开关)
     name: "${device_name} switch3"
+    output: realy3
     id: switch3
-    turn_on_action:
-      - switch.turn_on: realy3
+    on_turn_on:
       - lambda: |-
-          if (!id(realy0).state) {
+          if (!id(switch0).state) {
             id(switch0).turn_on();
           } else {
-          id(realy3).turn_on();
+          id(switch3).turn_on();
           }
-    turn_off_action:
-      - switch.turn_off: realy3
   - platform: gpio
     pin: GPIO14
     #LOGO灯
