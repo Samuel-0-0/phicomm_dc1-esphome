@@ -35,7 +35,7 @@ substitutions:
   #与客户端（如Home Assistant）失去连接多久后重启设备，秒s，分钟min，小时h
   api_reboot_timeout: 600s
   #电量统计的数据更新时间，秒s，分钟min，小时h
-  cse7766_update_interval: 30s
+  cse7766_update_interval: 1s
 #--------------------- 只需要改这上面的内容 ---------------------
 
 wifi:
@@ -62,10 +62,10 @@ ota:
   password: $ota_password
 #  port: 3286
 
-web_server:
-  port: 80
-  css_url: https://esphome.io/_static/webserver-v1.min.css
-  js_url: https://esphome.io/_static/webserver-v1.min.js
+#web_server:
+#  port: 80
+#  css_url: https://esphome.io/_static/webserver-v1.min.css
+#  js_url: https://esphome.io/_static/webserver-v1.min.js
 
 #deep_sleep:
 #  run_duration: 20s
@@ -74,7 +74,7 @@ web_server:
 i2c:
   sda: GPIO3
   scl: GPIO12
-#  scan: true
+  scan: false
   frequency: 20kHz
 
 cat9554:
@@ -97,8 +97,8 @@ sensor:
   - platform: cse7766
     voltage:
       name: "${device_name} voltage"
-#    current:
-#      name: "${device_name} current"
+    current:
+      name: "${device_name} current"
     power:
       name: "${device_name} power"
     update_interval: $cse7766_update_interval
@@ -211,7 +211,7 @@ text_sensor:
     #配置文件版本
     name: "${device_name} config_version"
     lambda: |-
-      return {"v2019.03.28"};
+      return {"v2019.03.28.002"};
   - platform: version
     #esphome版本
     name: "${device_name} esphome_version"
@@ -307,8 +307,6 @@ switch:
       - lambda: |-
           if (!id(switch0).state) {
             id(switch0).turn_on();
-          } else {
-          id(switch1).turn_on();
           }
   - platform: output
     #开关2(显示为一个开关)
@@ -319,8 +317,6 @@ switch:
       - lambda: |-
           if (!id(switch0).state) {
             id(switch0).turn_on();
-          } else {
-          id(switch2).turn_on();
           }
   - platform: output
     #开关3(显示为一个开关)
@@ -331,8 +327,6 @@ switch:
       - lambda: |-
           if (!id(switch0).state) {
             id(switch0).turn_on();
-          } else {
-          id(switch3).turn_on();
           }
   - platform: gpio
     pin: GPIO14
