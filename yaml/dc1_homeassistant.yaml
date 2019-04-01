@@ -8,7 +8,7 @@ esphome:
     #local: path/to/esphome-core
     #指定外部来源
     repository: https://github.com/Samuel-0-0/esphome-core.git
-    branch: dc1-test
+    branch: dc1
   build_path: build\$device_name
   esp8266_restore_from_flash: yes
   arduino_version: 2.5.0
