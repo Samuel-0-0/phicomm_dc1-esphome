@@ -9,21 +9,47 @@
 > - dc1_mqtt：相对稳定版本，用于接入mqtt平台
 > - dc1_mqtt_test：测试版本，用于接入mqtt平台
 
+
+```
+配置文件对应版本更新历史
+
+dc1_homeassistant：
+v2019.03.28.002：
+编译固件前请更新esphome及esphome-core到最新版本！
+1、优化按钮，解决重启问题
+
+dc1_homeassistant_test：
+
+dc1_mqtt：无
+
+dc1_mqtt_test：无
+
+```
+
 ### 2、修改固件配置文件
 按照自己的情况修改配置文件中substitutions内的参数。其他的配置如果不是很了解就不要去修改了。
+
 ```
 #--------------------- 只需要改这下面的内容 ---------------------
 substitutions:
-  #WiFi模组版本，型号中带B的为csm64f02_b，不带B的为csm64f02
-  board_model: csm64f02_b
+  #WiFi芯片版本，型号中带B的为csm64f02_b，不带B的为csm64f02
+  board_model: csm64f02
   #设备名称(多个dc1改成不一样的)
   device_name: phicomm_dc1
   #WiFi_SSID名称
-  wifi_ssid: 'SSID'
+  wifi_ssid: '2L'
   #WiFi密码
-  wifi_password: '12345678'
+  wifi_password: '1122334455'
+  #如果SSID是隐藏的，设置为true
+  wifi_fast_connect: 'false'
+  #WiFi离线多久后重启设备，秒s/分钟min/小时h，不需要此功能设置为0s
+  wifi_reboot_timeout: 600s
   #OTA密码
   ota_password: '123456'
+  #与客户端（如Home Assistant）失去连接多久后重启设备，秒s/分钟min/小时h，不需要此功能设置为0s
+  api_reboot_timeout: 600s
+  #电量统计的数据更新时间，秒s/分钟min/小时h
+  cse7766_update_interval: 1s
 #--------------------- 只需要改这上面的内容 ---------------------
 ```
 
@@ -36,13 +62,8 @@ substitutions:
 **因platformio需要python2.7的环境，所以python2.7为必须。**
 - Windows 系统
 
-1. 下载 [git安装包-64位](https://github.com/git-for-windows/git/releases/download/v2.21.0.windows.1/PortableGit-2.21.0-64-bit.7z.exe) / [git安装包-32位](https://github.com/git-for-windows/git/releases/download/v2.21.0.windows.1/PortableGit-2.21.0-32-bit.7z.exe)
-2. 下载 [python2.7安装包-64位](https://www.python.org/ftp/python/2.7.16/python-2.7.16.amd64.msi) / [python2.7安装包-32位](https://www.python.org/ftp/python/2.7.16/python-2.7.16.msi)
-3. 下载 [DC1刷机工具（自搭环境版）](https://github.com/Samuel-0-0/esphome-tools-dc1) 并解压
-4. 解压Git安装包内所有文件到Prerequisites\git里面，如下图
-5. 安装python到指定位置，如下图
-6. 运行DC1工具箱，选择(2)升级编译环境，等待完成。
-
+1. 自搭环境版：[点此查看](https://github.com/Samuel-0-0/esphome-tools-dc1/tree/lite)
+2. 免搭建直接用版本：[点此查看](https://github.com/Samuel-0-0/esphome-tools-dc1/tree/master)
 
 - MacOS
 

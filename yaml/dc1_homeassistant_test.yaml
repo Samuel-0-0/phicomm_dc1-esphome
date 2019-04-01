@@ -28,13 +28,13 @@ substitutions:
   wifi_password: '1122334455'
   #如果SSID是隐藏的，设置为true
   wifi_fast_connect: 'false'
-  #WiFi离线多久后重启设备，秒s，分钟min，小时h
+  #WiFi离线多久后重启设备，秒s/分钟min/小时h，不需要此功能设置为0s
   wifi_reboot_timeout: 600s
   #OTA密码
   ota_password: '123456'
-  #与客户端（如Home Assistant）失去连接多久后重启设备，秒s，分钟min，小时h
+  #与客户端（如Home Assistant）失去连接多久后重启设备，秒s/分钟min/小时h，不需要此功能设置为0s
   api_reboot_timeout: 600s
-  #电量统计的数据更新时间，秒s，分钟min，小时h
+  #电量统计的数据更新时间，秒s/分钟min/小时h
   cse7766_update_interval: 1s
 #--------------------- 只需要改这上面的内容 ---------------------
 
