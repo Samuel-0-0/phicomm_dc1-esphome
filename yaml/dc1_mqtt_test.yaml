@@ -1,0 +1,429 @@
+#---------------------------------------------------------
+# 注意：纯验证阶段，未全部完成，请勿使用！
+#---------------------------------------------------------
+esphome:
+  name: $device_name
+  platform: ESP8266
+  board: $board_model
+  esphome_core_version:
+    #指定esphome_core来源
+    #指定本地来源
+    #local: path/to/esphome-core
+    #指定外部来源
+    repository: https://github.com/Samuel-0-0/esphome-core.git
+    branch: dc1-test
+  build_path: build\$device_name
+  esp8266_restore_from_flash: yes
+  arduino_version: 2.5.0
+  platformio_options:
+    #指定platform-espressif8266来源
+    platform: https://github.com/Samuel-0-0/platform-espressif8266.git#dc1
+
+#--------------------- 只需要改这下面的内容 ---------------------
+substitutions:
+  #WiFi芯片版本，型号中带B的为csm64f02_b，不带B的为csm64f02
+  board_model: csm64f02
+  #设备名称(多个dc1改成不一样的)
+  device_name: phicomm_dc1_test
+  #WiFi_SSID名称
+  wifi_ssid: '2L'
+  #WiFi密码
+  wifi_password: '1122334455'
+  #如果SSID是隐藏的，设置为true
+  wifi_fast_connect: 'false'
+  #WiFi离线多久后重启设备，秒s/分钟min/小时h，不需要此功能设置为0s
+  wifi_reboot_timeout: 600s
+  #OTA密码
+  ota_password: '123456'
+  #电量统计的数据更新时间，秒s/分钟min/小时h
+  cse7766_update_interval: 1s
+  #MQTT代理服务器IP地址
+  mqtt_broker: '192.168.0.2'
+  #MQTT代理服务器端口
+  mqtt_port: '1883'
+  #MQTT代理服务器用户名
+  mqtt_username: 'username'
+  #MQTT代理服务器密码
+  mqtt_password: 'password'
+  #Home Assistant自动发现
+  mqtt_discovery: 'true'
+  #Home Assistant重启时自动发现消息保持
+  mqtt_discovery_retain: 'false'
+  #Home Assistant发现设备后使用的前缀
+  mqtt_discovery_prefix: 'homeassistant'
+  #与MQTT服务端失去连接多久后重启设备，秒s/分钟min/小时h，不需要此功能设置为0s
+  mqtt_reboot_timeout: 600s
+  #保持MQTT socket存活时间
+  mqtt_keepalive: 15s
+#--------------------- 只需要改这上面的内容 ---------------------
+
+wifi:
+  ssid: $wifi_ssid
+  password: $wifi_password
+#需要设置静态地址的改下面的配置
+#  manual_ip:
+#    static_ip: 192.168.178.230
+#    gateway: 192.168.178.1
+#    subnet: 255.255.255.0
+#    dns1: 1.1.1.1
+#    dns2: 1.2.2.1
+  domain: .local
+  reboot_timeout: $wifi_reboot_timeout
+  power_save_mode: none
+  fast_connect: $wifi_fast_connect
+
+ota:
+  safe_mode: true
+  password: $ota_password
+#  port: 3286
+
+#https://esphome.io/components/mqtt.html
+mqtt:
+  id: mqtt_client
+  broker: $mqtt_broker
+  port: $mqtt_port
+  username: $mqtt_username
+  password: $mqtt_password
+  client_id: $device_name
+  discovery: $mqtt_discovery
+  discovery_retain: $mqtt_discovery_retain
+  discovery_prefix: $mqtt_discovery_prefix
+  topic_prefix: "${device_name}/dc1"
+  log_topic:
+    topic: "${device_name}/logs"
+    level: info
+  birth_message:
+#    topic: 'xxx/status'
+#    payload: 'Online'
+#    qos: 1
+#    retain: true
+  will_message:
+#    topic: 'xxx/status'
+#    payload: 'Offline'
+#    qos: 1
+#    retain: true
+#  shutdown_message:
+  reboot_timeout: $mqtt_reboot_timeout
+  keepalive: $mqtt_keepalive
+  on_message:
+    - topic: some/topic
+     then:
+       - # ...
+    - topic: some/other/topic
+     then:
+       - # ...
+  on_json_message:
+    topic: the/topic
+      then:
+      - light.turn_on:
+          id: living_room_lights
+
+          transition_length: !lambda |-
+            int length = 1000;
+            if (x.containsKey("length"))
+              length = x["length"];
+            return length;
+
+          brightness: !lambda "return x["bright"];"
+
+          effect: !lambda |-
+            const char *effect = "None";
+            if (x.containsKey("effect"))
+              effect = x["effect"];
+            return effect;
+
+#web_server:
+#  port: 80
+#  css_url: https://esphome.io/_static/webserver-v1.min.css
+#  js_url: https://esphome.io/_static/webserver-v1.min.js
+
+#deep_sleep:
+#  run_duration: 20s
+#  sleep_duration: 50s
+
+i2c:
+  sda: GPIO3
+  scl: GPIO12
+  scan: false
+  frequency: 20kHz
+
+cat9554:
+  - id: cat9554_hub
+    address: 0x20
+    irq: GPIO4
+
+uart:
+  rx_pin: GPIO13
+  baud_rate: 4800
+
+#debug:
+
+logger:
+#  hardware_uart: UART1
+#  level: DEBUG
+  level: info
+
+sensor:
+  - platform: cse7766
+    voltage:
+      name: "${device_name} voltage"
+      id: voltage_
+      state_topic: ${device_name}/cse7766/voltage
+      discovery: False
+      filters: []
+    current:
+      name: "${device_name} current"
+      id: current_
+      state_topic: ${device_name}/cse7766/current
+      discovery: False
+      filters: []
+    power:
+      name: "${device_name} power"
+      id: power_
+      state_topic: ${device_name}/cse7766/power
+      discovery: False
+      filters: []
+    update_interval: $cse7766_update_interval
+#    on_value:
+#      then:
+#        - mqtt.publish_json:
+#            topic: "${device_name}/cse7766"
+#            payload: |-
+#              root["voltage"] = id(voltage_).state;
+#              root["current"] = id(current_).state;
+#              root["power"] = id(power_).state;
+  - platform: uptime
+    name: "${device_name} uptime"
+    id: uptime_
+  - platform: wifi_signal
+    name: "${device_name} wifi_signal"
+    id: wifi_signal_
+
+binary_sensor:
+  - platform: status
+    #设备状态
+    name: "${device_name} status"
+    #是否对外隐藏（true/false）
+    internal: false
+  - platform: gpio
+    #第一个按钮(内部引用，对外隐藏)
+    name: "${device_name} key1"
+    #是否对外隐藏（true/false）
+    internal: true
+    pin:
+      cat9554: cat9554_hub
+      # Use pin number 0
+      number: 0
+      mode: INPUT
+    filters:
+      - invert:
+      - delayed_on: 40ms
+      - delayed_off: 40ms
+    on_click:
+      - min_length: 50ms
+        max_length: 350ms
+        then:
+          - switch.toggle: switch1
+  - platform: gpio
+    #第二个按钮(内部引用，对外隐藏)
+    name: "${device_name} key2"
+    #是否对外隐藏（true/false）
+    internal: true
+    pin:
+      cat9554: cat9554_hub
+      # Use pin number 1
+      number: 1
+      mode: INPUT
+    filters:
+      - invert:
+      - delayed_on: 40ms
+      - delayed_off: 40ms
+    on_click:
+      - min_length: 50ms
+        max_length: 350ms
+        then:
+          - switch.toggle: switch2
+  - platform: gpio
+    #第三个按钮(内部引用，对外隐藏)
+    name: "${device_name} key3"
+    #是否对外隐藏（true/false）
+    internal: true
+    pin:
+      cat9554: cat9554_hub
+      # Use pin number 2
+      number: 2
+      mode: INPUT
+    filters:
+      - invert:
+      - delayed_on: 40ms
+      - delayed_off: 40ms
+    on_click:
+      - min_length: 50ms
+        max_length: 350ms
+        then:
+          - switch.toggle: switch3
+  - platform: gpio
+    #总开关(内部引用，对外隐藏)
+    name: "${device_name} key0"
+    #是否对外隐藏（true/false）
+    id: key0
+    internal: true
+    pin:
+      number: GPIO16
+      mode: INPUT_PULLDOWN_16
+    filters:
+      - invert:
+      - delayed_on: 40ms
+      - delayed_off: 40ms
+    on_click:
+      - min_length: 50ms
+        max_length: 350ms
+        then:
+          - switch.toggle: switch0
+  #影子
+  - platform: template
+    name: "shadow1"
+    id: shadow1
+    internal: true
+  - platform: template
+    name: "shadow2"
+    id: shadow2
+    internal: true
+  - platform: template
+    name: "shadow3"
+    id: shadow3
+    internal: true
+    
+#WiFi状态灯
+status_led:
+  pin: GPIO0
+
+text_sensor:
+  - platform: template
+    #配置文件版本
+    name: "${device_name} config_version"
+    lambda: |-
+      return {"v2019.03.28.002"};
+  - platform: version
+    #esphome版本
+    name: "${device_name} esphome_version"
+    icon: mdi:information-outline
+  - platform: wifi_info
+    ip_address:
+      name: "${device_name} IP Address"
+    ssid:
+      name: "${device_name} Connected SSID"
+#    bssid:
+#      name: "${device_name} Connected BSSID"
+
+output:
+  - platform: gpio
+    #继电器3(内部引用，对外隐藏)
+    id: realy3
+    pin:
+      cat9554: cat9554_hub
+      # Use pin number 4
+      number: 4
+      mode: OUTPUT
+      inverted: false
+  - platform: gpio
+    #继电器2(内部引用，对外隐藏)
+    id: realy2
+    pin:
+      cat9554: cat9554_hub
+      # Use pin number 5
+      number: 5
+      mode: OUTPUT
+      inverted: false
+  - platform: gpio
+    #继电器1(内部引用，对外隐藏)
+    id: realy1
+    pin:
+      cat9554: cat9554_hub
+      # Use pin number 6
+      number: 6
+      mode: OUTPUT
+      inverted: false
+  - platform: gpio
+    #总继电器(内部引用，对外隐藏)
+    id: realy0
+    pin:
+      cat9554: cat9554_hub
+      # Use pin number 7
+      number: 7
+      mode: OUTPUT
+      inverted: false
+
+switch:
+  - platform: output
+    #总开关(显示为一个开关)
+    name: "${device_name} switch0"
+    output: realy0
+    id: switch0
+    on_turn_on:
+      - switch.turn_on: LOGO_light
+      - lambda: |-
+          if (id(shadow1).state) {
+            id(switch1).turn_on();
+            id(shadow1).publish_state(false);
+          }
+          if (id(shadow2).state) {
+            id(switch2).turn_on();
+            id(shadow2).publish_state(false);
+          }
+          if (id(shadow3).state) {
+            id(switch3).turn_on();
+            id(shadow3).publish_state(false);
+          }
+    on_turn_off:
+      - switch.turn_off: LOGO_light
+      - lambda: |-
+          if (id(switch1).state) {
+            id(switch1).turn_off();
+            id(shadow1).publish_state(true);
+          }
+          if (id(switch2).state) {
+            id(switch2).turn_off();
+            id(shadow2).publish_state(true);
+          }
+          if (id(switch3).state) {
+            id(switch3).turn_off();
+            id(shadow3).publish_state(true);
+          }
+  - platform: output
+    #开关1(显示为一个开关)
+    name: "${device_name} switch1"
+    output: realy1
+    id: switch1
+    on_turn_on:
+      - lambda: |-
+          if (!id(switch0).state) {
+            id(switch0).turn_on();
+          }
+  - platform: output
+    #开关2(显示为一个开关)
+    name: "${device_name} switch2"
+    output: realy2
+    id: switch2
+    on_turn_on:
+      - lambda: |-
+          if (!id(switch0).state) {
+            id(switch0).turn_on();
+          }
+  - platform: output
+    #开关3(显示为一个开关)
+    name: "${device_name} switch3"
+    output: realy3
+    id: switch3
+    on_turn_on:
+      - lambda: |-
+          if (!id(switch0).state) {
+            id(switch0).turn_on();
+          }
+  - platform: gpio
+    pin: GPIO14
+    #LOGO灯
+    name: "${device_name} LOGO_light"
+    id: LOGO_light
+    internal: false
+    inverted: true
