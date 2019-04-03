@@ -60,7 +60,7 @@ substitutions:
 
 ### 3、搭建编译环境及刷固件
 **因platformio需要python2.7的环境，所以python2.7为必须。**
-- Windows 系统
+- Windows
 
 1. 自搭环境版：[点此查看](https://github.com/Samuel-0-0/esphome-tools-dc1/tree/lite)
 2. 免搭建直接用版本：[点此查看](https://github.com/Samuel-0-0/esphome-tools-dc1/tree/master)
@@ -69,9 +69,10 @@ substitutions:
 
 > MacOS自带python2.7，所以无需再安装。
 
-> [从此处下载esphome](https://github.com/Samuel-0-0/esphome-core)（打开页面后，右上角「 Clone or download 」 → 「 Download ZIP 」），下载后解压缩。
+1. [从此处下载esphome](https://github.com/Samuel-0-0/esphome-core)（打开页面后，右上角「 Clone or download 」 → 「 Download ZIP 」），下载后解压缩。
 
-> 打开终端，执行如下命令：（如需python虚拟环境，请自行配置virtualenv）
+2. 打开终端，执行如下命令：（如需python虚拟环境，请自行配置virtualenv）
+
 ```
 # 进入esphome的setup.py所在目录
 cd xxxxx
@@ -92,4 +93,16 @@ esphome xxxxx.yaml upload
 > 与MacOS类似，参考MacOS的方法
 
 - Docker
-> docker版本暂无
+> 注意！多个配置文件放在一起除了改文件名还要改device_name: XXX，不能出现device_name重复的现象
+1. 安装[官方esphome容器](https://hub.docker.com/r/esphome/esphome)
+2. 执行如下命令：
+```
+docker exec -it esphome_container_name /bin/bash -c "cd /esphome_config_path&&git clone https://github.com/Samuel-0-0/esphome.git&&cd esphome&&python setup.py build&&python setup.py install&&rm -rf /esphome_config_path/esphome"
+
+注意！看清楚上面的命令行，有3处地方需要根据实际情况修改，
+a. esphome_container_name  改成实际的容器名字
+b. esphome_config_path   改成实际的配置文件夹路径，共2处！！
+```
+3. 打开浏览器，输入容器IP地址:6052，如：192.168.1.10:6052
+
+

@@ -21,7 +21,7 @@ substitutions:
   #WiFi芯片版本，型号中带B的为csm64f02_b，不带B的为csm64f02
   board_model: csm64f02
   #设备名称(多个dc1改成不一样的)
-  device_name: phicomm_dc1
+  device_name: phicomm_dc1_test
   #WiFi_SSID名称
   wifi_ssid: '2L'
   #WiFi密码

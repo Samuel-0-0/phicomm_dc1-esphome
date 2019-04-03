@@ -24,11 +24,11 @@
 ### 2、主控板接线
 #### 用到的TTL工具
 任选一个即可
-![image](https://github.com/Samuel-0-0/phicomm_dc1-esphome/blob/master/cookbook/image/%E5%88%B7%E6%9C%BA%E5%B7%A5%E5%85%B7.jpg)
+![image](https://github.com/Samuel-0-0/phicomm_dc1-esphome/blob/master/cookbook/image/%E5%88%B7%E6%9C%BA%E5%B7%A5%E5%85%B7.jpg?raw=true)
 
 #### 接线方法
 ![image](https://github.com/Samuel-0-0/phicomm_dc1-esphome/blob/master/cookbook/image/%E6%8E%A5%E7%BA%BF%E5%9B%BE.jpg?raw=true)
-![image](https://github.com/Samuel-0-0/phicomm_dc1-esphome/blob/master/cookbook/image/TTL%E6%8E%A5%E7%BA%BF.jpg)
+![image](https://github.com/Samuel-0-0/phicomm_dc1-esphome/blob/master/cookbook/image/TTL%E6%8E%A5%E7%BA%BF.jpg?raw=true)
 
 ### 3、配置文件下载、修改、编译固件及刷固件操作
 
