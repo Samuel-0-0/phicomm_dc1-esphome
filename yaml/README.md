@@ -69,7 +69,7 @@ substitutions:
 
 > MacOS自带python2.7，所以无需再安装。
 
-1. [从此处下载esphome](https://github.com/Samuel-0-0/esphome-core)（打开页面后，右上角「 Clone or download 」 → 「 Download ZIP 」），下载后解压缩。
+1. [从此处下载esphome](https://github.com/Samuel-0-0/esphome)（打开页面后，右上角「 Clone or download 」 → 「 Download ZIP 」），下载后解压缩。
 
 2. 打开终端，执行如下命令：（如需python虚拟环境，请自行配置virtualenv）
 
