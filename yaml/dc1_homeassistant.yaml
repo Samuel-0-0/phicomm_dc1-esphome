@@ -2,19 +2,26 @@ esphome:
   name: $device_name
   platform: ESP8266
   board: $board_model
+  #状态恢复保持
+  esp8266_restore_from_flash: yes
+#--------------指定esphome_core来源------------------
   esphome_core_version:
-    #指定esphome_core来源
     #指定本地来源
     #local: path/to/esphome-core
     #指定外部来源
     repository: https://github.com/Samuel-0-0/esphome-core.git
+    #指定分支
     branch: dc1
+#----------------------------------------------------
+  #指定编译临时文件存放位置
   build_path: build\$device_name
-  esp8266_restore_from_flash: yes
+  #指定arduino版本
   arduino_version: 2.5.0
+#-----------------platform相关设置-------------------
   platformio_options:
     #指定platform-espressif8266来源
     platform: https://github.com/Samuel-0-0/platform-espressif8266.git#dc1
+#----------------------------------------------------
 
 #--------------------- 只需要改这下面的内容 ---------------------
 substitutions:
@@ -41,35 +48,41 @@ substitutions:
 wifi:
   ssid: $wifi_ssid
   password: $wifi_password
-#需要设置静态地址的改下面的配置
+#----------需要设置静态地址的改下面的配置------------
 #  manual_ip:
 #    static_ip: 192.168.178.230
 #    gateway: 192.168.178.1
 #    subnet: 255.255.255.0
 #    dns1: 1.1.1.1
 #    dns2: 1.2.2.1
+#----------------------------------------------------
   domain: .local
   reboot_timeout: $wifi_reboot_timeout
   power_save_mode: none
   fast_connect: $wifi_fast_connect
 
-#不使用api与设备连接的话删除api配置
+#---------不使用api与设备连接的话删除api配置---------
 api:
   reboot_timeout: $api_reboot_timeout
+#----------------------------------------------------
 
 ota:
   safe_mode: true
   password: $ota_password
 #  port: 3286
 
+#----------------------WEB后台----------------------
 #web_server:
 #  port: 80
 #  css_url: https://esphome.io/_static/webserver-v1.min.css
 #  js_url: https://esphome.io/_static/webserver-v1.min.js
+#----------------------------------------------------
 
+#----------------------深度睡眠----------------------
 #deep_sleep:
 #  run_duration: 20s
 #  sleep_duration: 50s
+#----------------------------------------------------
 
 i2c:
   sda: GPIO3

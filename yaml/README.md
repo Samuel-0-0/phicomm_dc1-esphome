@@ -62,8 +62,7 @@ substitutions:
 **因platformio需要python2.7的环境，所以python2.7为必须。**
 - Windows
 
-1. 自搭环境版：[点此查看](https://github.com/Samuel-0-0/esphome-tools-dc1/tree/lite)
-2. 免搭建直接用版本：[点此查看](https://github.com/Samuel-0-0/esphome-tools-dc1/tree/master)
+[点此查看](https://github.com/Samuel-0-0/esphome-tools-dc1/tree/master)
 
 - MacOS
 
