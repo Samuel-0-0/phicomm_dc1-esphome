@@ -20,7 +20,9 @@ v2019.03.28.002：
 
 dc1_homeassistant_test：
 
-dc1_mqtt：无
+dc1_mqtt：
+v2019.08.26.001
+感谢@yaming116 花开堪折枝的mqtt版本修改及测试，使用mqtt时禁止使用api！
 
 dc1_mqtt_test：无
 
