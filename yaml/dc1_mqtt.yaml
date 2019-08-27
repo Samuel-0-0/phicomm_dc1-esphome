@@ -24,6 +24,7 @@ esphome:
 #----------------------------------------------------
 
 #------- 一些自定义的配置，一般情况下只需要改这下面的内容 -------
+
 substitutions:
   #WiFi芯片版本，型号中带B的为csm64f02_b，不带B的为csm64f02
   board_model: csm64f02_b
@@ -38,11 +39,9 @@ substitutions:
   #如果SSID是隐藏的，设置为true
   wifi_fast_connect: 'false'
   #WiFi离线多久后重启设备，秒s/分钟min/小时h，不需要此功能设置为0s
-  wifi_reboot_timeout: 600s
+  wifi_reboot_timeout: 0s
   #OTA密码
   ota_password: '123456'
-  #与客户端（如Home Assistant）失去连接多久后重启设备，秒s/分钟min/小时h，不需要此功能设置为0s
-  api_reboot_timeout: 600s
   #电量统计的数据更新时间，秒s/分钟min/小时h
   cse7766_update_interval: 1s
   #MQTT代理服务器IP地址
@@ -53,7 +52,14 @@ substitutions:
   mqtt_username: '1'
   #MQTT代理服务器密码
   mqtt_password: '1'
-#------- 一些自定义的配置，一般情况下只需要改这下面的内容 -------
+  #与MQTT服务端失去连接多久后重启设备，秒s/分钟min/小时h，不需要此功能设置为0s
+  mqtt_reboot_timeout: 0s
+  #保持MQTT socket存活时间
+  mqtt_keepalive: 15s
+  #电量上报时间，固定时间内上报一次
+  cse7766_heartbeat: 120s
+  
+#------- 一些自定义的配置，一般情况下只需要改这上面的内容 -------
 
   #Home Assistant自动发现
   #topic_prefix
@@ -63,13 +69,6 @@ substitutions:
   mqtt_discovery_retain: 'false'
   #Home Assistant发现设备后使用的前缀
   mqtt_discovery_prefix: 'phicomm_dc1'
-  #与MQTT服务端失去连接多久后重启设备，秒s/分钟min/小时h，不需要此功能设置为0s
-  mqtt_reboot_timeout: 600s
-  #保持MQTT socket存活时间
-  mqtt_keepalive: 15s
-  #电量上报时间，固定时间内上报一次
-  cse7766_heartbeat: 120s
-  #同上面条件，数据波动大于下面设置的值将会上报一次
   switch0: "${mqtt_topic_prefix}/switch/switch0"
   switch1: "${mqtt_topic_prefix}/switch/switch1"
   switch2: "${mqtt_topic_prefix}/switch/switch2"
@@ -124,11 +123,6 @@ mqtt:
 #  log_topic:
 #    topic: "${device_name}/logs"
 #    level: info
-
-#------- API配置，注意此配置与MQTT配置互斥，只能选择1个 -------
-#api:
-#  reboot_timeout: $api_reboot_timeout
-#----------------------------------------------------
 
 #------- OTA 空中升级配置 -------
 ota:
@@ -188,6 +182,7 @@ sensor:
       filters:
         - or:
           - heartbeat: $cse7766_heartbeat
+            #同上面条件，数据波动大于下面设置的值将会上报一次
           - delta: 1.0
     current:
       name: "${device_name} current"
@@ -195,6 +190,7 @@ sensor:
       filters:
         - or:
           - heartbeat: $cse7766_heartbeat
+            #同上面条件，数据波动大于下面设置的值将会上报一次
           - delta: 1.0
     power:
       name: "${device_name} power"
@@ -202,6 +198,7 @@ sensor:
       filters:
         - or:
           - heartbeat: $cse7766_heartbeat
+            #同上面条件，数据波动大于下面设置的值将会上报一次
           - delta: 5.0
     update_interval: $cse7766_update_interval
   #通电工作时间
