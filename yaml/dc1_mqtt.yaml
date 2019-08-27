@@ -38,11 +38,11 @@ substitutions:
   wifi_password: '1'
   #如果SSID是隐藏的，设置为true
   wifi_fast_connect: 'false'
-  #WiFi离线多久后重启设备，秒s/分钟min/小时h，不需要此功能设置为0s
+  #WiFi离线多久后重启设备，秒s/分钟min/小时h，不需要此功能设置为0s，建议设置0s，防止异常重启，或者设置的大一些
   wifi_reboot_timeout: 0s
   #OTA密码
   ota_password: '123456'
-  #电量统计的数据更新时间，秒s/分钟min/小时h
+  #电量统计的数据刷新时间（内部刷新时间，非上报周期），秒s/分钟min/小时h
   cse7766_update_interval: 1s
   #MQTT代理服务器IP地址
   mqtt_broker: '192.168.3.1'
@@ -52,11 +52,11 @@ substitutions:
   mqtt_username: '1'
   #MQTT代理服务器密码
   mqtt_password: '1'
-  #与MQTT服务端失去连接多久后重启设备，秒s/分钟min/小时h，不需要此功能设置为0s
+  #与MQTT服务端失去连接多久后重启设备，秒s/分钟min/小时h，不需要此功能设置为0s，建议设置0s，防止异常重启，或者设置的大一些
   mqtt_reboot_timeout: 0s
   #保持MQTT socket存活时间
   mqtt_keepalive: 15s
-  #电量上报时间，固定时间内上报一次
+  #电量上报时间，固定时间内上报一次（心跳包）
   cse7766_heartbeat: 120s
   
 #------- 一些自定义的配置，一般情况下只需要改这上面的内容 -------
@@ -143,28 +143,28 @@ ota:
 #  sleep_duration: 50s
 #----------------------------------------------------
 
-#------- 此处的作用是接入CAT9554 IO扩展芯片 -------
+#------- 接入CAT9554 IO扩展芯片 -------
 i2c:
   sda: GPIO3
   scl: GPIO12
   scan: false
   frequency: 20kHz
 
-#------- 此处的作用是接入CAT9554的扩展IO -------
+#------- 接入CAT9554的扩展IO -------
 cat9554:
   - id: cat9554_hub
     address: 0x20
     irq: GPIO4
 
-#------- 此处的作用是接入CSE7766电量传感器 -------
+#------- 接入CSE7766电量传感器 -------
 uart:
   rx_pin: GPIO13
   baud_rate: 4800
 
-#------- 是否开启DEBUG模式 -------
+#------- 是否开启DEBUG模式（WEB界面输出内容） -------
 #debug:
 
-#-------TTL打印log设置，注意实际输出端口为log_tx，而不是刷机用到的的tx-------
+#-------TTL打印log设置，注意实际输出端口为主板上面的log_tx，而不是刷机用到的tx-------
 logger:
 #需要在TTL看log信息，取消注释下面这行
 #  hardware_uart: UART1
@@ -338,6 +338,7 @@ text_sensor:
 #    bssid:
 #      name: "${device_name} Connected BSSID"
 
+#------- 用于控制继电器 -------
 output:
   - platform: gpio
     #继电器3(内部引用，对外隐藏)
@@ -376,6 +377,7 @@ output:
       mode: OUTPUT
       inverted: false
 
+#------- 用于可控制的开关 -------
 switch:
   - platform: output
     #总开关(显示为一个开关)
