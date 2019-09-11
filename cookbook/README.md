@@ -30,6 +30,11 @@
 ![image](https://github.com/Samuel-0-0/phicomm_dc1-esphome/blob/master/cookbook/image/%E6%8E%A5%E7%BA%BF%E5%9B%BE.jpg?raw=true)
 ![image](https://github.com/Samuel-0-0/phicomm_dc1-esphome/blob/master/cookbook/image/TTL%E6%8E%A5%E7%BA%BF.jpg?raw=true)
 
+#### TTL接线步骤注意事项
+这里可能需要注意一个特殊的情况，实测遇到的，提一下。
+TTL工具的TX和RX可以先和DC1的RX和TX连接，但是GND先不连！
+DC1主板IO0和GND连接，然后通电，2秒后松开IO0和GND的连接，再将TTL的GND和主板GND相连，确保主板芯片正确进入刷机模式！
+
 ### 3、配置文件下载、修改、编译固件及刷固件操作
 
 请到[这里查看具体的方法](https://github.com/Samuel-0-0/phicomm_dc1-esphome/tree/master/yaml)
