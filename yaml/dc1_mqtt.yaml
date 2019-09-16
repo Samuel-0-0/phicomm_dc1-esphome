@@ -29,9 +29,10 @@ substitutions:
   #WiFi芯片版本，型号中带B的为csm64f02_b，不带B的为csm64f02
   board_model: csm64f02_b
   #设备名称(多个dc1改成不一样的，API接入和ESPHOME容器会识别这个)
-  device_name: phicomm_dc1_1
+  device_name: phicomm_dc1_shufang
   #MQTT设备名称（多个dc1改成不一样的，MQTT接入及控制会识别这个）
   mqtt_device_name: shufang
+  ### 这里之所以会取2个设备名称独立开来，是为了便于通过MQTT接入服务端（如ioBroker）后的设备分类和集中
   #WiFi_SSID名称
   wifi_ssid: '1'
   #WiFi密码
