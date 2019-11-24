@@ -4,27 +4,29 @@
 
 ### 1、下载固件配置文件（下方右键另存为）
 > ####   固件版本定义：
-> - [dc1_homeassistant](https://github.com/Samuel-0-0/phicomm_dc1-esphome/raw/master/yaml/dc1_homeassistant.yaml)：相对稳定版本，用于接入Home Assistant
-> - [dc1_homeassistant_test](https://github.com/Samuel-0-0/phicomm_dc1-esphome/raw/master/yaml/dc1_homeassistant_test.yaml)：测试版本，用于接入Home Assistant
-> - dc1_mqtt：相对稳定版本，用于接入mqtt平台
-> - dc1_mqtt_test：测试版本，用于接入mqtt平台
+> - [dc1_homeassistant](https://github.com/Samuel-0-0/phicomm_dc1-esphome/raw/master/yaml/dc1_homeassistant.yaml)：用于接入Home Assistant
+> - [dc1_mqtt](https://github.com/Samuel-0-0/phicomm_dc1-esphome/raw/master/yaml/dc1_mqtt.yaml)：用于接入mqtt平台
 
 
 ```
 配置文件对应版本更新历史
 
 dc1_homeassistant：
+v2019.11.24.001:
+迁移到1.14版本ESPHome
+
 v2019.03.28.002：
 编译固件前请更新esphome及esphome-core到最新版本！
 1、优化按钮，解决重启问题
 
-dc1_homeassistant_test：
 
 dc1_mqtt：
+v2019.11.24.001:
+迁移到1.14版本ESPHome
+
 v2019.08.26.001
 感谢[yaming116](https://github.com/yaming116) QQ昵称：花开堪折枝的mqtt版本修改及测试，使用mqtt时禁止使用api！
 
-dc1_mqtt_test：无
 
 ```
 
@@ -34,8 +36,8 @@ dc1_mqtt_test：无
 ```
 #--------------------- 只需要改这下面的内容 ---------------------
 substitutions:
-  #WiFi芯片版本，型号中带B的为csm64f02_b，不带B的为csm64f02
-  board_model: csm64f02
+  #WiFi芯片版本，请勿修改
+  board_model: esp01_1m
   #设备名称(多个dc1改成不一样的)
   device_name: phicomm_dc1
   #WiFi_SSID名称
@@ -45,7 +47,7 @@ substitutions:
   #如果SSID是隐藏的，设置为true
   wifi_fast_connect: 'false'
   #WiFi离线多久后重启设备，秒s/分钟min/小时h，不需要此功能设置为0s
-  wifi_reboot_timeout: 600s
+  wifi_reboot_timeout: 0s
   #OTA密码
   ota_password: '123456'
   #与客户端（如Home Assistant）失去连接多久后重启设备，秒s/分钟min/小时h，不需要此功能设置为0s
@@ -55,20 +57,14 @@ substitutions:
 #--------------------- 只需要改这上面的内容 ---------------------
 ```
 
-关于WiFi模组版本的选择，请查看下图，找出自己对应的芯片版本即可。
-看红色箭头的位置，带B的为csm64f02_b，不带B的为csm64f02
-
-![image](https://github.com/Samuel-0-0/phicomm_dc1-esphome/blob/master/yaml/%E6%A8%A1%E7%BB%84%E5%9E%8B%E5%8F%B7%E9%80%89%E6%8B%A9.jpg?raw=true)
-
 ### 3、搭建编译环境及刷固件
-**因platformio需要python2.7的环境，所以python2.7为必须。**
+
 - Windows
 
 [点此查看](https://github.com/Samuel-0-0/esphome-tools-dc1/tree/master)
 
 - MacOS
-
-> MacOS自带python2.7，所以无需再安装。
+**以下方法暂时不可用，请勿使用**
 
 1. [从此处下载esphome](https://github.com/Samuel-0-0/esphome)（打开页面后，右上角「 Clone or download 」 → 「 Download ZIP 」），下载后解压缩。
 
@@ -94,6 +90,8 @@ esphome xxxxx.yaml upload
 > 与MacOS类似，参考MacOS的方法
 
 - Docker
+**以下方法暂时不可用，请勿使用**
+
 > 注意！多个配置文件放在一起除了改文件名还要改device_name: XXX，不能出现device_name重复的现象
 1. 安装[官方esphome容器](https://hub.docker.com/r/esphome/esphome)
 2. 执行如下命令：

@@ -4,39 +4,25 @@ esphome:
   board: $board_model
   #状态恢复保持
   esp8266_restore_from_flash: yes
-#--------------指定esphome_core来源------------------
-  esphome_core_version:
-    #指定本地来源
-    #local: path/to/esphome-core
-    #指定外部来源
-    repository: https://github.com/Samuel-0-0/esphome-core.git
-    #指定分支
-    branch: dc1
 #----------------------------------------------------
   #指定编译临时文件存放位置
   build_path: build\$device_name
-  #指定arduino版本
-  arduino_version: 2.5.0
-#-----------------platform相关设置-------------------
-  platformio_options:
-    #指定platform-espressif8266来源
-    platform: https://github.com/Samuel-0-0/platform-espressif8266.git#dc1
 #----------------------------------------------------
 
 #------- 一些自定义的配置，一般情况下只需要改这下面的内容 -------
 
 substitutions:
   #WiFi芯片版本，型号中带B的为csm64f02_b，不带B的为csm64f02
-  board_model: csm64f02_b
+  board_model: esp01_1m
   #设备名称(多个dc1改成不一样的，API接入和ESPHOME容器会识别这个)
-  device_name: phicomm_dc1_shufang
+  device_name: phicomm_dc1_test
   #MQTT设备名称（多个dc1改成不一样的，MQTT接入及控制会识别这个）
-  mqtt_device_name: shufang
+  mqtt_device_name: test
   ### 这里之所以会取2个设备名称独立开来，是为了便于通过MQTT接入服务端（如ioBroker）后的设备分类和集中
   #WiFi_SSID名称
-  wifi_ssid: '1'
+  wifi_ssid: '1234'
   #WiFi密码
-  wifi_password: '1'
+  wifi_password: '12345678'
   #如果SSID是隐藏的，设置为true
   wifi_fast_connect: 'false'
   #WiFi离线多久后重启设备，秒s/分钟min/小时h，不需要此功能设置为0s，建议设置0s，防止异常重启，或者设置的大一些
@@ -108,6 +94,11 @@ wifi:
   reboot_timeout: $wifi_reboot_timeout
   power_save_mode: none
   fast_connect: $wifi_fast_connect
+  #→ 需要修改名字的时候，启用，OTA后禁用
+  #use_address: ota.local
+  ap:
+    ssid: "DC1_ESPHOME_AP"
+    password: "1234567890"
 
 #------- MQTT配置，注意此配置与API配置互斥，只能选择1个 -------
 mqtt:
@@ -155,7 +146,6 @@ i2c:
 cat9554:
   - id: cat9554_hub
     address: 0x20
-    irq: GPIO4
 
 #------- 接入CSE7766电量传感器 -------
 uart:
