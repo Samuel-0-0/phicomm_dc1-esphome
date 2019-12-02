@@ -79,7 +79,7 @@ i2c:
 cat9554:
   - id: cat9554_hub
     address: 0x20
-    irq: GPIO4
+    irq_pin: GPIO4
 
 uart:
   rx_pin: GPIO13
@@ -210,7 +210,7 @@ text_sensor:
     #配置文件版本
     name: "${device_name} config_version"
     lambda: |-
-      return {"v2019.03.28.002"};
+      return {"v2019.12.02.001"};
   - platform: version
     #esphome版本
     name: "${device_name} esphome_version"

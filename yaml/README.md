@@ -12,7 +12,7 @@
 配置文件对应版本更新历史
 
 dc1_homeassistant：
-v2019.11.24.001:
+v2019.12.02.001:
 迁移到1.14版本ESPHome
 
 v2019.03.28.002：
@@ -21,7 +21,7 @@ v2019.03.28.002：
 
 
 dc1_mqtt：
-v2019.11.24.001:
+v2019.12.02.001:
 迁移到1.14版本ESPHome
 
 v2019.08.26.001
@@ -66,18 +66,11 @@ substitutions:
 - MacOS
 **以下方法暂时不可用，请勿使用**
 
-1. [从此处下载esphome](https://github.com/Samuel-0-0/esphome)（打开页面后，右上角「 Clone or download 」 → 「 Download ZIP 」），下载后解压缩。
-
-2. 打开终端，执行如下命令：（如需python虚拟环境，请自行配置virtualenv）
+打开终端，执行如下命令：（如需python虚拟环境，请自行配置virtualenv）
 
 ```
-# 进入esphome的setup.py所在目录
-cd xxxxx
-# 编译 esphome
-# 如提示权限不足，命令前加上sudo
-python setup.py build
 # 安装 esphome
-python setup.py install
+pip install esphome
 # 进入配置文件所在目录
 cd xxxxx
 # 编译固件(xxxxx.yaml为你的配置文件名字)
@@ -96,12 +89,10 @@ esphome xxxxx.yaml upload
 1. 安装[官方esphome容器](https://hub.docker.com/r/esphome/esphome)
 2. 执行如下命令：
 ```
-docker exec -it esphome_container_name /bin/bash -c "cd /esphome_config_path&&git clone https://github.com/Samuel-0-0/esphome.git&&cd esphome&&python setup.py build&&python setup.py install&&rm -rf /esphome_config_path/esphome"
+docker exec -it esphome_container_name /bin/bash -c "mkdir /usr/src/app/esphome/components/cat9554 && cd /usr/src/app/esphome/components/cat9554 && curl -O https://raw.githubusercontent.com/Samuel-0-0/phicomm_dc1-esphome/master/esphome/components/cat9554/__init__.py && curl -O https://raw.githubusercontent.com/Samuel-0-0/phicomm_dc1-esphome/master/esphome/components/cat9554/cat9554.cpp && curl -O https://raw.githubusercontent.com/Samuel-0-0/phicomm_dc1-esphome/master/esphome/components/cat9554/cat9554.h"
 
-注意！看清楚上面的命令行，有3处地方需要根据实际情况修改，
-a. esphome_container_name  改成实际的容器名字
-b. esphome_config_path   改成实际的配置文件夹路径，共2处！！
+注意！看清楚上面的命令行，有处地方需要根据实际情况修改，
+esphome_container_name  改成实际的容器名字
 ```
 3. 打开浏览器，输入容器IP地址:6052，如：192.168.1.10:6052
-
 

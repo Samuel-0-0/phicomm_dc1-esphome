@@ -146,7 +146,7 @@ i2c:
 cat9554:
   - id: cat9554_hub
     address: 0x20
-    irq: GPIO4
+    irq_pin: GPIO4
 
 #------- 接入CSE7766电量传感器 -------
 uart:
@@ -313,7 +313,7 @@ text_sensor:
     name: "${device_name} config_version"
     state_topic: $config_version_state
     lambda: |-
-      return {"v2019.08.26.001"};
+      return {"v2019.12.02.001"};
   #esphome版本
   - platform: version
     name: "${device_name} esphome_version"
