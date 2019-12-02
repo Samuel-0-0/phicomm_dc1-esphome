@@ -79,6 +79,7 @@ i2c:
 cat9554:
   - id: cat9554_hub
     address: 0x20
+    irq: GPIO4
 
 uart:
   rx_pin: GPIO13

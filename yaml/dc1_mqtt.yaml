@@ -146,6 +146,7 @@ i2c:
 cat9554:
   - id: cat9554_hub
     address: 0x20
+    irq: GPIO4
 
 #------- 接入CSE7766电量传感器 -------
 uart:
