@@ -18,19 +18,26 @@ CAT9554Component = cat9554_ns.class_('CAT9554Component', cg.Component, i2c.I2CDe
 CAT9554GPIOPin = cat9554_ns.class_('CAT9554GPIOPin', cg.GPIOPin)
 
 CONF_CAT9554 = 'cat9554'
+CONF_IRQ_PIN = 'irq_pin'
 CONFIG_SCHEMA = cv.Schema({
     cv.Required(CONF_ID): cv.declare_id(CAT9554Component),
+    cv.Required(CONF_IRQ_PIN): pins.gpio_input_pin_schema,
 }).extend(cv.COMPONENT_SCHEMA).extend(i2c.i2c_device_schema(0x20))
 
 
 def to_code(config):
     var = cg.new_Pvariable(config[CONF_ID])
     yield cg.register_component(var, config)
+    irq_pin = yield cg.gpio_pin_expression(config[CONF_IRQ_PIN])
+    cg.add(var.set_irq_pin(irq_pin))
     yield i2c.register_i2c_device(var, config)
 
 
 def validate_cat9554_gpio_mode(value):
     value = cv.string(value)
+    if value.upper() == 'INPUT_PULLUP':
+        raise cv.Invalid("INPUT_PULLUP mode has been removed in 1.14 and been combined into "
+                         "INPUT mode (they were the same thing). Please use INPUT instead.")
     return cv.enum(CAT9554_GPIO_MODES, upper=True)(value)
 
 
