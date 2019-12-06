@@ -1,8 +1,8 @@
 esphome:
   name: $device_name
   platform: ESP8266
-  board: $board_model
-  #状态恢复保持
+  board: esp01_1m
+  #断电记忆，恢复上次的状态
   esp8266_restore_from_flash: yes
 #----------------------------------------------------
   #指定编译临时文件存放位置
@@ -10,19 +10,17 @@ esphome:
 #----------------------------------------------------
 
 #------- 一些自定义的配置，一般情况下只需要改这下面的内容 -------
-
 substitutions:
-  #WiFi芯片版本，型号中带B的为csm64f02_b，不带B的为csm64f02
-  board_model: esp01_1m
-  #设备名称(多个dc1改成不一样的，API接入和ESPHOME容器会识别这个)
-  device_name: phicomm_dc1_test
+  config_version: 'v2019.12.06.001'
+  #设备名称（多个dc1改成不一样的，API接入和ESPHOME容器会识别这个）
+  device_name: phicomm_dc1_1
   #MQTT设备名称（多个dc1改成不一样的，MQTT接入及控制会识别这个）
-  mqtt_device_name: test
+  mqtt_device_name: ChilerenRoom
   ### 这里之所以会取2个设备名称独立开来，是为了便于通过MQTT接入服务端（如ioBroker）后的设备分类和集中
   #WiFi_SSID名称
-  wifi_ssid: '1234'
+  wifi_ssid: '777'
   #WiFi密码
-  wifi_password: '12345678'
+  wifi_password: '1122334455'
   #如果SSID是隐藏的，设置为true
   wifi_fast_connect: 'false'
   #WiFi离线多久后重启设备，秒s/分钟min/小时h，不需要此功能设置为0s，建议设置0s，防止异常重启，或者设置的大一些
@@ -32,13 +30,13 @@ substitutions:
   #电量统计的数据刷新时间（内部刷新时间，非上报周期），秒s/分钟min/小时h
   cse7766_update_interval: 1s
   #MQTT代理服务器IP地址
-  mqtt_broker: '192.168.3.1'
+  mqtt_broker: '192.168.88.115'
   #MQTT代理服务器端口
-  mqtt_port: '1'
+  mqtt_port: '1883'
   #MQTT代理服务器用户名
-  mqtt_username: '1'
+  #mqtt_username: '1'
   #MQTT代理服务器密码
-  mqtt_password: '1'
+  #mqtt_password: '1'
   #与MQTT服务端失去连接多久后重启设备，秒s/分钟min/小时h，不需要此功能设置为0s，建议设置0s，防止异常重启，或者设置的大一些
   mqtt_reboot_timeout: 0s
   #保持MQTT socket存活时间
@@ -48,14 +46,10 @@ substitutions:
   
 #------- 一些自定义的配置，一般情况下只需要改这上面的内容 -------
 
-  #Home Assistant自动发现
+  #以下的MQTT相关配置，如果不明白什么作用就不要去改它
+  
   #topic_prefix
-  mqtt_topic_prefix: 'homeassistant/phicomm_dc1/${mqtt_device_name}'
-  mqtt_discovery: 'false'
-  #Home Assistant重启时自动发现消息保持
-  mqtt_discovery_retain: 'false'
-  #Home Assistant发现设备后使用的前缀
-  mqtt_discovery_prefix: 'phicomm_dc1'
+  mqtt_topic_prefix: 'phicomm_dc1/${mqtt_device_name}'
   switch0: "${mqtt_topic_prefix}/switch/switch0"
   switch1: "${mqtt_topic_prefix}/switch/switch1"
   switch2: "${mqtt_topic_prefix}/switch/switch2"
@@ -94,7 +88,7 @@ wifi:
   reboot_timeout: $wifi_reboot_timeout
   power_save_mode: none
   fast_connect: $wifi_fast_connect
-  #→ 需要修改名字的时候，启用，OTA后禁用
+  #需要修改名字的时候启用，OTA后禁用
   #use_address: ota.local
   ap:
     ssid: "DC1_ESPHOME_AP"
@@ -105,16 +99,14 @@ mqtt:
   id: mqtt_client
   broker: $mqtt_broker
   port: $mqtt_port
-  username: $mqtt_username
-  password: $mqtt_password
+  #username: $mqtt_username
+  #password: $mqtt_password
   client_id: $device_name
-  discovery: $mqtt_discovery
-  discovery_retain: $mqtt_discovery_retain
-  discovery_prefix: $mqtt_discovery_prefix
+  discovery: false
   topic_prefix: $mqtt_topic_prefix
-#  log_topic:
-#    topic: "${device_name}/logs"
-#    level: info
+  log_topic:
+    topic: "${mqtt_topic_prefix}/logs"
+    level: info
 
 #------- OTA 空中升级配置 -------
 ota:
@@ -127,9 +119,12 @@ ota:
 #  port: 80
 #  css_url: https://esphome.io/_static/webserver-v1.min.css
 #  js_url: https://esphome.io/_static/webserver-v1.min.js
+#  auth:
+#    username: admin
+#    password: password
 #----------------------------------------------------
 
-#------- 深度睡眠配置，一般情况下不建议使用，休眠后将无法远程控制设置 -------
+#------- 深度睡眠配置，一般情况下不建议使用，休眠后将无法远程控制 -------
 #deep_sleep:
 #  run_duration: 20s
 #  sleep_duration: 50s
@@ -137,7 +132,7 @@ ota:
 
 #------- 接入CAT9554 IO扩展芯片 -------
 i2c:
-  sda: GPIO3
+  #sda: GPIO3
   scl: GPIO12
   scan: false
   frequency: 20kHz
@@ -158,11 +153,12 @@ uart:
 
 #-------TTL打印log设置，注意实际输出端口为主板上面的log_tx，而不是刷机用到的tx-------
 logger:
-#需要在TTL看log信息，取消注释下面这行
+  #需要在TTL看log信息，取消注释下面这行
 #  hardware_uart: UART1
-#不同的log等级看到的信息详细程度不一样
+  #不同的log等级看到的信息详细程度不一样
 #  level: DEBUG
   level: info
+  baud_rate: 0
 
 #------- 传感器配置 -------
 sensor:
@@ -313,11 +309,11 @@ text_sensor:
     name: "${device_name} config_version"
     state_topic: $config_version_state
     lambda: |-
-      return {"v2019.12.02.001"};
+      return {"${config_version}"};
   #esphome版本
   - platform: version
     name: "${device_name} esphome_version"
-    state_topic: $esphome_version
+    state_topic: $esphome_version_state
     icon: mdi:information-outline
   #wifi信息
   - platform: wifi_info

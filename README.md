@@ -29,18 +29,18 @@ Home Assistant 是一款基于 Python 的智能家居开源系统，支持众多
 5. 配置lovelace
 
 ### 2、ioBroker
-ioBroker是基于nodejs的物联网的集成平台，为物联网设备提供核心服务，系统管理和统一操作方式。
+ioBroker是基于nodejs的物联网的集成平台，为物联网设备提供核心服务、系统管理和统一操作方式。
 - [官方网站](http://www.iobroker.net)
 - [中文资料可以参考这里](https://doc.iobroker.cn/#/_zh-cn/)
 - [国内论坛](https://bbs.iobroker.cn)
 #### 接入方法
-待补充
+ioBroker相关接入问题可以加QQ群776817275咨询
 
 ### 3、其他支持mqtt的平台
 理论上来说，只要是支持mqtt的平台都可以实现接入。
 
 #### 接入方法
-待补充
+添加对应的topic
 
 ## TODO LIST
 - [x] 分析硬件，获得主要芯片的资料
@@ -54,30 +54,30 @@ ioBroker是基于nodejs的物联网的集成平台，为物联网设备提供核
 - [x] 编写测试固件
 - [x] 按钮及网络控制功能完善
 - [x] 断电记忆功能完善
-- [x] MQTT部分完善
-
+- [x] MQTT接入完善
+- [X] 迁移IO驱动以支持ESPHome 1.14 （感谢老妖）
 ## 可能存在的BUG
-- 可能会出现开关重置的现象，怀疑是wifi模块重启或者是CAT9554驱动的bug，未验证
+- 可能会出现开关重置的现象，大致是因为wifi模块重启造成，配置文件默认重启功能已禁用
 
 ## 正在进行中
-- 迁移到新版ESPHOME
+- 如果没有其他特别的情况，本项目正式完结。
 
 # 开发过程回顾
 ## 1、已知的一些硬件资料
 ### WiFi模组
-WiFi模组使用的是芯海的[CSM64F02](https://github.com/Samuel-0-0/dc1-esphome-home-assistant/blob/master/doc/CSM64F02%20WiFi%E6%A8%A1%E7%BB%84%E7%94%A8%E6%88%B7%E6%89%8B%E5%86%8CV1.3.pdf)，经过分析，这款模组和乐鑫的[ESP-WROOM-02](https://github.com/Samuel-0-0/dc1-esphome-home-assistant/blob/master/doc/esp-wroom-02%E6%8A%80%E6%9C%AF%E8%A7%84%E6%A0%BC%E4%B9%A6.pdf)是一样的。
+WiFi模组型号为芯海[CSM64F02](https://github.com/Samuel-0-0/dc1-esphome-home-assistant/blob/master/doc/CSM64F02%20WiFi%E6%A8%A1%E7%BB%84%E7%94%A8%E6%88%B7%E6%89%8B%E5%86%8CV1.3.pdf)，经过分析，这款模组和乐鑫的[ESP-WROOM-02](https://github.com/Samuel-0-0/dc1-esphome-home-assistant/blob/master/doc/esp-wroom-02%E6%8A%80%E6%9C%AF%E8%A7%84%E6%A0%BC%E4%B9%A6.pdf)是一样的。
 
 ![image](https://github.com/Samuel-0-0/dc1-esphome-home-assistant/blob/master/image/WiFi%E6%A8%A1%E7%BB%84.jpg?raw=true)
 ### U7
-经过分析，这是一颗IO扩展类的芯片，具体型号暂时未知，可能是cat9554的变种。
+IO扩展芯片，具体型号暂时未知，经过逻辑分析仪的逻辑分析（感谢killadm和老妖），可能是cat9554的变种（山寨版）。
 
 ![image](https://github.com/Samuel-0-0/dc1-esphome-home-assistant/blob/master/image/U7.jpg?raw=true)
 ### U11
-这是一颗电量统计用的芯片，具体型号为[CSE7766](https://github.com/Samuel-0-0/dc1-esphome-home-assistant/blob/master/doc/U11_CSE7766%E7%94%A8%E6%88%B7%E6%89%8B%E5%86%8C.pdf)。
+电量统计芯片，具体型号为[CSE7766](https://github.com/Samuel-0-0/dc1-esphome-home-assistant/blob/master/doc/U11_CSE7766%E7%94%A8%E6%88%B7%E6%89%8B%E5%86%8C.pdf)。
 
 ![image](https://github.com/Samuel-0-0/dc1-esphome-home-assistant/blob/master/image/U11%E7%94%B5%E9%87%8F%E7%BB%9F%E8%AE%A1%E8%8A%AF%E7%89%87.jpg?raw=true)
 ### 继电器
-继电器使用的是[永能家用继电器YX201系列](https://github.com/Samuel-0-0/dc1-esphome-home-assistant/blob/master/doc/%E6%B0%B8%E8%83%BD%E5%AE%B6%E7%94%A8%E7%BB%A7%E7%94%B5%E5%99%A8YX201.pdf)的产品，控制电压为5V。
+继电器型号为[永能家用继电器YX201系列](https://github.com/Samuel-0-0/dc1-esphome-home-assistant/blob/master/doc/%E6%B0%B8%E8%83%BD%E5%AE%B6%E7%94%A8%E7%BB%A7%E7%94%B5%E5%99%A8YX201.pdf)的产品，控制电压为5V。
 
 ![image](https://github.com/Samuel-0-0/dc1-esphome-home-assistant/blob/master/image/%E7%BB%A7%E7%94%B5%E5%99%A8.jpg?raw=true)
 
@@ -90,12 +90,14 @@ WiFi模组使用的是芯海的[CSM64F02](https://github.com/Samuel-0-0/dc1-esph
 
 ## 致谢
 以下排名不分先后，为随机。
-- killadm：  导出原始固件，提供WiFi芯片对比图，主控制板WiFi模块、U7移除后的PCB照片，U7逻辑分析数据采集
+- killadm：导出原始固件，提供WiFi芯片对比图，主控制板WiFi模块、U7移除后的PCB照片，U7逻辑分析数据采集
 - 老妖：U7驱动编写，U7逻辑分析
-- 实验幼儿园小二班扛把子：  测试引脚走向
-- Heller、巴山耗子： 初期资料整理
-- 风中的summer： 提供清晰的电路板照片，拆机过程照片
+- 实验幼儿园小二班扛把子：测试引脚走向
+- Heller、巴山耗子：初期资料整理
+- 风中的summer：提供清晰的电路板照片、拆机过程照片
 - OttoWinter：esphome的作者
+
+感谢各位使用本方法的玩家，欢迎加入QQ群776817275
 
 ## 免责申明
 以上纯属个人爱好，因为使用上述方法造成的任何问题，不承担任何责任。
