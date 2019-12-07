@@ -7,7 +7,7 @@ esphome:
 
 #----------------------------------------------------
   #指定编译临时文件存放位置
-  build_path: build\$device_name
+  build_path: build/$device_name
 
 #--------------------- 只需要改这下面的内容 ---------------------
 substitutions:
@@ -16,9 +16,9 @@ substitutions:
   #设备名称(多个dc1改成不一样的)
   device_name: phicomm_dc1
   #WiFi_SSID名称
-  wifi_ssid: '777'
+  wifi_ssid: $device_name
   #WiFi密码
-  wifi_password: '1122334455'
+  wifi_password: '12345678'
   #如果SSID是隐藏的，设置为true
   wifi_fast_connect: 'false'
   #WiFi离线多久后重启设备，秒s/分钟min/小时h，不需要此功能设置为0s
@@ -46,6 +46,12 @@ wifi:
   reboot_timeout: $wifi_reboot_timeout
   power_save_mode: none
   fast_connect: $wifi_fast_connect
+  ap:
+    ssid: $device_name
+    password: $wifi_password
+
+captive_portal:
+
 
 #---------不使用api与设备连接的话删除api配置---------
 api:
