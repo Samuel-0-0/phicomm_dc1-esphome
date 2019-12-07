@@ -69,6 +69,9 @@ esphome xxxxx.yaml upload
 
 > 注意！多个配置文件放在一起除了改文件名还要改device_name: XXX，不能出现device_name重复的现象
 1. 安装[官方esphome容器](https://hub.docker.com/r/esphome/esphome)
+```
+docker run -p 6052:6052 --dns 192.168.31.1 -td  esphome/esphome
+```
 2. 执行如下命令：
 ```
 docker exec -it 容器名字 /bin/bash -c "mkdir /usr/src/app/esphome/components/cat9554 && cd /usr/src/app/esphome/components/cat9554 && curl -O https://raw.githubusercontent.com/Samuel-0-0/phicomm_dc1-esphome/master/esphome/components/cat9554/__init__.py && curl -O https://raw.githubusercontent.com/Samuel-0-0/phicomm_dc1-esphome/master/esphome/components/cat9554/cat9554.cpp && curl -O https://raw.githubusercontent.com/Samuel-0-0/phicomm_dc1-esphome/master/esphome/components/cat9554/cat9554.h"
