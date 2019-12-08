@@ -232,7 +232,7 @@ text_sensor:
 output:
   - platform: gpio
     #继电器3(内部引用，对外隐藏)
-    id: realy3
+    id: relay3
     pin:
       cat9554: cat9554_hub
       # Use pin number 4
@@ -241,7 +241,7 @@ output:
       inverted: false
   - platform: gpio
     #继电器2(内部引用，对外隐藏)
-    id: realy2
+    id: relay2
     pin:
       cat9554: cat9554_hub
       # Use pin number 5
@@ -250,7 +250,7 @@ output:
       inverted: false
   - platform: gpio
     #继电器1(内部引用，对外隐藏)
-    id: realy1
+    id: relay1
     pin:
       cat9554: cat9554_hub
       # Use pin number 6
@@ -259,7 +259,7 @@ output:
       inverted: false
   - platform: gpio
     #总继电器(内部引用，对外隐藏)
-    id: realy0
+    id: relay0
     pin:
       cat9554: cat9554_hub
       # Use pin number 7
@@ -271,7 +271,7 @@ switch:
   - platform: output
     #总开关(显示为一个开关)
     name: "${device_name} switch0"
-    output: realy0
+    output: relay0
     id: switch0
     on_turn_on:
       - switch.turn_on: LOGO_light
@@ -306,7 +306,7 @@ switch:
   - platform: output
     #开关1(显示为一个开关)
     name: "${device_name} switch1"
-    output: realy1
+    output: relay1
     id: switch1
     on_turn_on:
       - lambda: |-
@@ -316,7 +316,7 @@ switch:
   - platform: output
     #开关2(显示为一个开关)
     name: "${device_name} switch2"
-    output: realy2
+    output: relay2
     id: switch2
     on_turn_on:
       - lambda: |-
@@ -326,7 +326,7 @@ switch:
   - platform: output
     #开关3(显示为一个开关)
     name: "${device_name} switch3"
-    output: realy3
+    output: relay3
     id: switch3
     on_turn_on:
       - lambda: |-
