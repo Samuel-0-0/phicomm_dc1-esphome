@@ -70,7 +70,8 @@ esphome xxxxx.yaml upload
 > 注意！多个配置文件放在一起除了改文件名还要改device_name: XXX，不能出现device_name重复的现象
 1. 安装[官方esphome容器](https://hub.docker.com/r/esphome/esphome)
 ```
-docker run --net=host -td  esphome/esphome
+# 如果不使用线刷把`--device=/dev/ttyUSB0` 去掉
+docker run --net=host --device=/dev/ttyUSB0 -td  esphome/esphome
 ```
 2. 执行如下命令：
 ```
