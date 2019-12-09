@@ -17,6 +17,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+    - name: Checkout
+      uses: actions/checkout@master
+
     - name: Initializing environment
       env:
         DEBIAN_FRONTEND: noninteractive
@@ -34,11 +37,10 @@ jobs:
         curl -O https://raw.githubusercontent.com/Samuel-0-0/phicomm_dc1-esphome/master/esphome/components/cat9554/cat9554.cpp
         curl -O https://raw.githubusercontent.com/Samuel-0-0/phicomm_dc1-esphome/master/esphome/components/cat9554/cat9554.h
 
-    - name: Checkout
-      uses: actions/checkout@master
+    - name: Build
       run: |
+        cd /home/runner/work/phicomm_dc1-esphome/phicomm_dc1-esphome
         ls -l
-
 
     # - name: Build
     #   run: |
