@@ -24,7 +24,7 @@ jobs:
       env:
         DEBIAN_FRONTEND: noninteractive
       run: |
-        pip3 install setuptools
+        pip3 install setuptools wheel
         pip3 install esphome
 
     - name: Prepare driver
