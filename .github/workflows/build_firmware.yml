@@ -44,10 +44,11 @@ jobs:
       run: |
         cd /home/runner/work/phicomm_dc1-esphome/phicomm_dc1-esphome/yaml
         python3 -m esphome dc1_homeassistant_api.yaml compile
-        find /home/runner/work/phicomm_dc1-esphome/phicomm_dc1-esphome/yaml/build/.
+        mkdir ~/bin
+        find . -name 'firmware.bin'  -exec cp {} ~/bin \;
 
     - name : Upload artifact
       uses: actions/upload-artifact@master
       with:
         name: firmware
-        path: /home/runner/work/phicomm_dc1-esphome/phicomm_dc1-esphome/yaml/build/phicomm_dc1
+        path: ~/bin/firmware.bin
