@@ -39,17 +39,12 @@ jobs:
 
     - name: Build
       run: |
-        cd /home/runner/work/phicomm_dc1-esphome/phicomm_dc1-esphome
-        ls -l
+        cd /home/runner/work/phicomm_dc1-esphome/phicomm_dc1-esphome/yaml
+        esphome dc1_homeassistant_api.yaml compile
+        find /home/runner/work/phicomm_dc1-esphome/phicomm_dc1-esphome/yaml/build/.
 
-    # - name: Build
-    #   run: |
-    #     cd openwrt
-    #     echo -e "$(nproc) thread build."
-    #     make -j$(nproc) V=s
-
-    # - name : Upload artifact
-    #   uses: actions/upload-artifact@master
-    #   with:
-    #     name: OpenWrt
-    #     path: openwrt/bin
+    - name : Upload artifact
+      uses: actions/upload-artifact@master
+      with:
+        name: firmware
+        path: /home/runner/work/phicomm_dc1-esphome/phicomm_dc1-esphome/yaml/build/phicomm_dc1
