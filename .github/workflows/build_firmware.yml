@@ -24,6 +24,7 @@ jobs:
       env:
         DEBIAN_FRONTEND: noninteractive
       run: |
+        python3 --version
         pip3 install setuptools wheel
         pip3 install esphome
 
@@ -31,7 +32,6 @@ jobs:
       env:
         DEBIAN_FRONTEND: noninteractive
       run: |
-        python3 --version
         cat9554_dir=`python3 -c 'import sys;print(sys.path[6])'`/esphome/components/cat9554
         mkdir $cat9554_dir
         cd $cat9554_dir
