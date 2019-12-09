@@ -17,21 +17,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout
-      uses: actions/checkout@master
-
-    - name: Initialization environment
+    - name: Initializing environment
       env:
         DEBIAN_FRONTEND: noninteractive
       run: |
         pip install esphome
-
-    - name: Initialization environment
-      env:
-        DEBIAN_FRONTEND: noninteractive
-      run: |
-        pip install esphome    
-
 
     - name: Prepare driver
       env:
@@ -43,13 +33,12 @@ jobs:
         curl -O https://raw.githubusercontent.com/Samuel-0-0/phicomm_dc1-esphome/master/esphome/components/cat9554/__init__.py
         curl -O https://raw.githubusercontent.com/Samuel-0-0/phicomm_dc1-esphome/master/esphome/components/cat9554/cat9554.cpp
         curl -O https://raw.githubusercontent.com/Samuel-0-0/phicomm_dc1-esphome/master/esphome/components/cat9554/cat9554.h
-        ls -l $cat9554_dir
 
-    # - name: Build
-    #   run: |
-    #     cd openwrt
-    #     echo -e "$(nproc) thread build."
-    #     make -j$(nproc) V=s
+    - name: Checkout
+      uses: actions/checkout@master
+      run: |
+        ls -l
+
 
     # - name: Build
     #   run: |
