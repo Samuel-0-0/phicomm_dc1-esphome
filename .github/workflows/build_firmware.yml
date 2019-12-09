@@ -40,7 +40,7 @@ jobs:
     - name: Build
       run: |
         cd /home/runner/work/phicomm_dc1-esphome/phicomm_dc1-esphome/yaml
-        esphome dc1_homeassistant_api.yaml compile
+        /usr/local/bin/esphome dc1_homeassistant_api.yaml compile
         find /home/runner/work/phicomm_dc1-esphome/phicomm_dc1-esphome/yaml/build/.
 
     - name : Upload artifact
