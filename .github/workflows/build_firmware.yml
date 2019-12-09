@@ -6,7 +6,7 @@ on:
   push:
     branches: 
       - master
-      - duchenpaul-action-1
+
 #  schedule:
 #    - cron: 0 8 * * 5
 #  watch:
