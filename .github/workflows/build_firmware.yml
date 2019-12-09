@@ -24,6 +24,7 @@ jobs:
       env:
         DEBIAN_FRONTEND: noninteractive
       run: |
+        python version
         pip3 install esphome
 
     - name: Prepare driver
