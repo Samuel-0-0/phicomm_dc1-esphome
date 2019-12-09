@@ -26,11 +26,24 @@ jobs:
       run: |
         pip install esphome
 
-    # - name: Build
-    #   run: |
-    #     cd openwrt
-    #     echo -e "$(nproc) thread build."
-    #     make -j$(nproc) V=s
+    - name: Initialization environment
+      env:
+        DEBIAN_FRONTEND: noninteractive
+      run: |
+        pip install esphome    
+
+
+    - name: Prepare driver
+      env:
+        DEBIAN_FRONTEND: noninteractive
+      run: |
+        cat9554_dir=`python -c 'import sys;print(sys.path[6])'`/esphome/components/cat9554
+        mkdir $cat9554_dir
+        cd $cat9554_dir
+        curl -O https://raw.githubusercontent.com/Samuel-0-0/phicomm_dc1-esphome/master/esphome/components/cat9554/__init__.py
+        curl -O https://raw.githubusercontent.com/Samuel-0-0/phicomm_dc1-esphome/master/esphome/components/cat9554/cat9554.cpp
+        curl -O https://raw.githubusercontent.com/Samuel-0-0/phicomm_dc1-esphome/master/esphome/components/cat9554/cat9554.h
+        ls -l $cat9554_dir
 
     # - name: Build
     #   run: |
@@ -38,8 +51,14 @@ jobs:
     #     echo -e "$(nproc) thread build."
     #     make -j$(nproc) V=s
 
-    - name : Upload artifact
-      uses: actions/upload-artifact@master
-      with:
-        name: OpenWrt
-        path: openwrt/bin
+    # - name: Build
+    #   run: |
+    #     cd openwrt
+    #     echo -e "$(nproc) thread build."
+    #     make -j$(nproc) V=s
+
+    # - name : Upload artifact
+    #   uses: actions/upload-artifact@master
+    #   with:
+    #     name: OpenWrt
+    #     path: openwrt/bin
