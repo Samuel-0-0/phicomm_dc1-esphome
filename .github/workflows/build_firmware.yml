@@ -45,12 +45,22 @@ jobs:
         echo "::set-env name=bin_output_path::/home/runner/work/bin/"
         bin_output_path=/home/runner/work/bin/
         cd /home/runner/work/phicomm_dc1-esphome/phicomm_dc1-esphome/yaml
-        python3 -m esphome dc1_homeassistant_api.yaml compile
+
         mkdir ${bin_output_path}
-        find . -name 'firmware.bin'  -exec cp {} ${bin_output_path} \;
+        for f in *.yaml
+        do
+          basename=`basename $f .yaml`
+          echo "Compiling $f..."
+          python3 -m esphome $basename.yaml compile
+          find . -name 'firmware.bin'  -exec mv {} ${basename}_firmware.bin \;
+          find . -name ${basename}_firmware.bin  -exec cp {} ${bin_output_path} \;
+          echo "Done"
+        done
+
+        ls -l /home/runner/work/bin/
 
     - name : Upload artifact
       uses: actions/upload-artifact@master
       with:
         name: firmware
-        path: /home/runner/work/bin/firmware.bin
+        path: /home/runner/work/bin/
