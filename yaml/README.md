@@ -85,4 +85,5 @@ docker exec -it 容器名字 /bin/bash -c "mkdir /usr/src/app/esphome/components
 2. 使用esptools, esphome自带的web server等工具刷写,OTA升级
 
 配网功能在home assistant版本里已加入, 不用更改yaml, 刷机完成后等待1分钟进入配网模式.
-如果要自定义yaml文件, 请先fork这个项目, 然后更改yaml, push以后会触发编译, 首次fork可能要去actions里面同意使用actions条款.
+
+如果要自定义yaml文件, 请先fork这个项目, 然后更改yaml, commit更改会触发编译, 首次fork可能要去actions里面同意使用actions条款.
