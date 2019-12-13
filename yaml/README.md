@@ -80,3 +80,9 @@ docker exec -it 容器名字 /bin/bash -c "mkdir /usr/src/app/esphome/components
 ```
 3. 打开浏览器，输入容器IP地址:6052，如：192.168.1.10:6052
 
+- Github Actions
+1. Github Actions提供了自动编译固件的功能, 直接去Actions标签下最新Build Firmware里的Artifacts下载bin.
+2. 使用esptools, esphome自带的web server等工具刷写,OTA升级
+
+配网功能在home assistant版本里已加入, 不用更改yaml, 刷机完成后等待1分钟进入配网模式.
+如果要自定义yaml文件, 请先fork这个项目, 然后更改yaml, push以后会触发编译, 首次fork可能要去actions里面同意使用actions条款.
