@@ -90,9 +90,13 @@ wifi:
   fast_connect: $wifi_fast_connect
   #需要修改名字的时候启用，OTA后禁用
   #use_address: ota.local
+
+#------- WIFI AP配置 -------
   ap:
-    ssid: "DC1_ESPHOME_AP"
+    ssid: $device_name
     password: "1234567890"
+
+captive_portal:
 
 #------- MQTT配置，注意此配置与API配置互斥，只能选择1个 -------
 mqtt:
