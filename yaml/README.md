@@ -71,11 +71,11 @@ esphome xxxxx.yaml upload
 1. 安装[官方esphome容器](https://hub.docker.com/r/esphome/esphome)
 ```
 # 如果不使用线刷把`--device=/dev/ttyUSB0` 去掉
-docker run --net=host --device=/dev/ttyUSB0 -td  esphome/esphome
+docker run --net=host --device=/dev/ttyUSB0 -v docker/esphome/config:/config --name esphome -td  esphome/esphome 
 ```
 2. 执行如下命令：
 ```
-docker exec -it 容器名字 /bin/bash -c "mkdir /usr/src/app/esphome/components/cat9554 && cd /usr/src/app/esphome/components/cat9554 && curl -O https://raw.githubusercontent.com/Samuel-0-0/phicomm_dc1-esphome/master/esphome/components/cat9554/__init__.py && curl -O https://raw.githubusercontent.com/Samuel-0-0/phicomm_dc1-esphome/master/esphome/components/cat9554/cat9554.cpp && curl -O https://raw.githubusercontent.com/Samuel-0-0/phicomm_dc1-esphome/master/esphome/components/cat9554/cat9554.h"
+docker exec -it esphome /bin/bash -c "mkdir /usr/src/app/esphome/components/cat9554 && cd /usr/src/app/esphome/components/cat9554 && curl -O https://raw.githubusercontent.com/Samuel-0-0/phicomm_dc1-esphome/master/esphome/components/cat9554/__init__.py && curl -O https://raw.githubusercontent.com/Samuel-0-0/phicomm_dc1-esphome/master/esphome/components/cat9554/cat9554.cpp && curl -O https://raw.githubusercontent.com/Samuel-0-0/phicomm_dc1-esphome/master/esphome/components/cat9554/cat9554.h"
 
 ```
 3. 打开浏览器，输入容器IP地址:6052，如：192.168.1.10:6052
