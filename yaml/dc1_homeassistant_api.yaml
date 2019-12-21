@@ -94,23 +94,31 @@ uart:
 #debug:
 
 logger:
-#  hardware_uart: UART1
-#  level: DEBUG
-  level: info
+  hardware_uart: UART1
+  level: DEBUG
+  # level: info
 
 sensor:
   - platform: cse7766
     voltage:
       name: "${device_name} voltage"
+      unit_of_measurement: 'V'
+      icon: mdi:flash
     current:
       name: "${device_name} current"
+      unit_of_measurement: 'A'
+      icon: mdi:current-ac
     power:
       name: "${device_name} power"
+      unit_of_measurement: 'W'
+      icon: mdi:flash
     update_interval: $cse7766_update_interval
   - platform: uptime
     name: "${device_name} uptime"
+    unit_of_measurement: 's'
   - platform: wifi_signal
     name: "${device_name} wifi_signal"
+    unit_of_measurement: 'dB'
 
 binary_sensor:
   - platform: status
@@ -273,6 +281,7 @@ switch:
     name: "${device_name} switch0"
     output: relay0
     id: switch0
+    icon: mdi:power-socket-au
     on_turn_on:
       - switch.turn_on: LOGO_light
       - lambda: |-
@@ -308,6 +317,7 @@ switch:
     name: "${device_name} switch1"
     output: relay1
     id: switch1
+    icon: mdi:power-socket-au
     on_turn_on:
       - lambda: |-
           if (!id(switch0).state) {
@@ -318,6 +328,7 @@ switch:
     name: "${device_name} switch2"
     output: relay2
     id: switch2
+    icon: mdi:power-socket-au
     on_turn_on:
       - lambda: |-
           if (!id(switch0).state) {
@@ -328,6 +339,7 @@ switch:
     name: "${device_name} switch3"
     output: relay3
     id: switch3
+    icon: mdi:power-socket-au
     on_turn_on:
       - lambda: |-
           if (!id(switch0).state) {
@@ -340,3 +352,4 @@ switch:
     id: LOGO_light
     internal: false
     inverted: true
+    icon: mdi:lightbulb
