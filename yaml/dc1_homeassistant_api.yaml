@@ -103,11 +103,11 @@ sensor:
     voltage:
       name: "${device_name} voltage"
       unit_of_measurement: 'V'
-      icon: mdi:flash
+      icon: mdi:alpha-v-box-outline
     current:
       name: "${device_name} current"
       unit_of_measurement: 'A'
-      icon: mdi:current-ac
+      icon: mdi:alpha-a-box-outline
     power:
       name: "${device_name} power"
       unit_of_measurement: 'W'
