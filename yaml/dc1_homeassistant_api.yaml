@@ -7,7 +7,7 @@ esphome:
 
 #----------------------------------------------------
   #指定编译临时文件存放位置
-  build_path: build\$device_name
+  build_path: build/$device_name
 
 #--------------------- 只需要改这下面的内容 ---------------------
 substitutions:
@@ -16,9 +16,9 @@ substitutions:
   #设备名称(多个dc1改成不一样的)
   device_name: phicomm_dc1
   #WiFi_SSID名称
-  wifi_ssid: '777'
+  wifi_ssid: $device_name
   #WiFi密码
-  wifi_password: '1122334455'
+  wifi_password: '12345678'
   #如果SSID是隐藏的，设置为true
   wifi_fast_connect: 'false'
   #WiFi离线多久后重启设备，秒s/分钟min/小时h，不需要此功能设置为0s
@@ -46,6 +46,12 @@ wifi:
   reboot_timeout: $wifi_reboot_timeout
   power_save_mode: none
   fast_connect: $wifi_fast_connect
+  ap:
+    ssid: $device_name
+    password: $wifi_password
+
+captive_portal:
+
 
 #---------不使用api与设备连接的话删除api配置---------
 api:
@@ -88,23 +94,31 @@ uart:
 #debug:
 
 logger:
-#  hardware_uart: UART1
-#  level: DEBUG
-  level: info
+  hardware_uart: UART1
+  level: DEBUG
+  # level: info
 
 sensor:
   - platform: cse7766
     voltage:
       name: "${device_name} voltage"
+      unit_of_measurement: 'V'
+      icon: mdi:alpha-v-box-outline
     current:
       name: "${device_name} current"
+      unit_of_measurement: 'A'
+      icon: mdi:alpha-a-box-outline
     power:
       name: "${device_name} power"
+      unit_of_measurement: 'W'
+      icon: mdi:flash
     update_interval: $cse7766_update_interval
   - platform: uptime
     name: "${device_name} uptime"
+    unit_of_measurement: 's'
   - platform: wifi_signal
     name: "${device_name} wifi_signal"
+    unit_of_measurement: 'dB'
 
 binary_sensor:
   - platform: status
@@ -226,7 +240,7 @@ text_sensor:
 output:
   - platform: gpio
     #继电器3(内部引用，对外隐藏)
-    id: realy3
+    id: relay3
     pin:
       cat9554: cat9554_hub
       # Use pin number 4
@@ -235,7 +249,7 @@ output:
       inverted: false
   - platform: gpio
     #继电器2(内部引用，对外隐藏)
-    id: realy2
+    id: relay2
     pin:
       cat9554: cat9554_hub
       # Use pin number 5
@@ -244,7 +258,7 @@ output:
       inverted: false
   - platform: gpio
     #继电器1(内部引用，对外隐藏)
-    id: realy1
+    id: relay1
     pin:
       cat9554: cat9554_hub
       # Use pin number 6
@@ -253,7 +267,7 @@ output:
       inverted: false
   - platform: gpio
     #总继电器(内部引用，对外隐藏)
-    id: realy0
+    id: relay0
     pin:
       cat9554: cat9554_hub
       # Use pin number 7
@@ -265,8 +279,9 @@ switch:
   - platform: output
     #总开关(显示为一个开关)
     name: "${device_name} switch0"
-    output: realy0
+    output: relay0
     id: switch0
+    icon: mdi:power-socket-au
     on_turn_on:
       - switch.turn_on: LOGO_light
       - lambda: |-
@@ -300,8 +315,9 @@ switch:
   - platform: output
     #开关1(显示为一个开关)
     name: "${device_name} switch1"
-    output: realy1
+    output: relay1
     id: switch1
+    icon: mdi:power-socket-au
     on_turn_on:
       - lambda: |-
           if (!id(switch0).state) {
@@ -310,8 +326,9 @@ switch:
   - platform: output
     #开关2(显示为一个开关)
     name: "${device_name} switch2"
-    output: realy2
+    output: relay2
     id: switch2
+    icon: mdi:power-socket-au
     on_turn_on:
       - lambda: |-
           if (!id(switch0).state) {
@@ -320,8 +337,9 @@ switch:
   - platform: output
     #开关3(显示为一个开关)
     name: "${device_name} switch3"
-    output: realy3
+    output: relay3
     id: switch3
+    icon: mdi:power-socket-au
     on_turn_on:
       - lambda: |-
           if (!id(switch0).state) {
@@ -334,3 +352,4 @@ switch:
     id: LOGO_light
     internal: false
     inverted: true
+    icon: mdi:lightbulb

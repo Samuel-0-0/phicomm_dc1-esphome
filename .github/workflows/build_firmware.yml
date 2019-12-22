@@ -1,0 +1,66 @@
+name: Build Firmware
+
+on: 
+  release:
+    types: [published]
+  push:
+    branches: 
+      - master
+
+#  schedule:
+#    - cron: 0 8 * * 5
+#  watch:
+#    types: [started]
+
+jobs:
+  build:
+    runs-on: ubuntu-18.04
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@master
+
+    - name: Initializing environment
+      env:
+        DEBIAN_FRONTEND: noninteractive
+      run: |
+        pip3 install setuptools wheel
+        pip3 install esphome
+
+    - name: Prepare driver
+      env:
+        DEBIAN_FRONTEND: noninteractive
+      run: |
+        python3 --version
+        site_package_path=`pip3 show esphome | grep 'Location' | awk -F ': ' '{print $2}'`
+        cat9554_dir=${site_package_path}/esphome/components/cat9554
+        mkdir $cat9554_dir
+        cd $cat9554_dir
+        curl -O https://raw.githubusercontent.com/Samuel-0-0/phicomm_dc1-esphome/master/esphome/components/cat9554/__init__.py
+        curl -O https://raw.githubusercontent.com/Samuel-0-0/phicomm_dc1-esphome/master/esphome/components/cat9554/cat9554.cpp
+        curl -O https://raw.githubusercontent.com/Samuel-0-0/phicomm_dc1-esphome/master/esphome/components/cat9554/cat9554.h
+
+    - name: Build
+      run: |
+        echo "::set-env name=bin_output_path::/home/runner/work/bin/"
+        bin_output_path=/home/runner/work/bin/
+        cd /home/runner/work/phicomm_dc1-esphome/phicomm_dc1-esphome/yaml
+
+        mkdir ${bin_output_path}
+        for f in *.yaml
+        do
+          basename=`basename $f .yaml`
+          echo "Compiling $f..."
+          python3 -m esphome $basename.yaml compile
+          find . -name 'firmware.bin'  -exec mv {} ${basename}_firmware.bin \;
+          find . -name ${basename}_firmware.bin  -exec cp {} ${bin_output_path} \;
+          echo "Done"
+        done
+
+        ls -l /home/runner/work/bin/
+
+    - name : Upload artifact
+      uses: actions/upload-artifact@master
+      with:
+        name: firmware
+        path: /home/runner/work/bin/

@@ -69,10 +69,21 @@ esphome xxxxx.yaml upload
 
 > 注意！多个配置文件放在一起除了改文件名还要改device_name: XXX，不能出现device_name重复的现象
 1. 安装[官方esphome容器](https://hub.docker.com/r/esphome/esphome)
+```
+# 如果不使用线刷把`--device=/dev/ttyUSB0` 去掉
+docker run --net=host --device=/dev/ttyUSB0 -v docker/esphome/config:/config --name esphome -td  esphome/esphome 
+```
 2. 执行如下命令：
 ```
-docker exec -it 容器名字 /bin/bash -c "mkdir /usr/src/app/esphome/components/cat9554 && cd /usr/src/app/esphome/components/cat9554 && curl -O https://raw.githubusercontent.com/Samuel-0-0/phicomm_dc1-esphome/master/esphome/components/cat9554/__init__.py && curl -O https://raw.githubusercontent.com/Samuel-0-0/phicomm_dc1-esphome/master/esphome/components/cat9554/cat9554.cpp && curl -O https://raw.githubusercontent.com/Samuel-0-0/phicomm_dc1-esphome/master/esphome/components/cat9554/cat9554.h"
+docker exec -it esphome /bin/bash -c "mkdir /usr/src/app/esphome/components/cat9554 && cd /usr/src/app/esphome/components/cat9554 && curl -O https://raw.githubusercontent.com/Samuel-0-0/phicomm_dc1-esphome/master/esphome/components/cat9554/__init__.py && curl -O https://raw.githubusercontent.com/Samuel-0-0/phicomm_dc1-esphome/master/esphome/components/cat9554/cat9554.cpp && curl -O https://raw.githubusercontent.com/Samuel-0-0/phicomm_dc1-esphome/master/esphome/components/cat9554/cat9554.h"
 
 ```
 3. 打开浏览器，输入容器IP地址:6052，如：192.168.1.10:6052
 
+- Github Actions
+1. Github Actions提供了自动编译固件的功能, 直接去Actions标签下最新Build Firmware里的Artifacts下载bin.
+2. 使用esptools, esphome自带的web server等工具刷写,OTA升级
+
+配网功能在home assistant版本里已加入, 不用更改yaml, 刷机完成后等待1分钟进入配网模式.
+
+如果要自定义yaml文件, 请先fork这个项目, 然后更改yaml, commit更改会触发编译, 首次fork可能要去actions里面同意使用actions条款.
