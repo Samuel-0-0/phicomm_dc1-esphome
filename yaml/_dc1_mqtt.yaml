@@ -11,11 +11,8 @@ esphome:
 
 #------- 一些自定义的配置，一般情况下只需要改这下面的内容 -------
 
-#   如果MQTT代理服务器存在账号密码，请到mqtt对应处删除
-#   #username: !secret mqtt_username #password: !secret mqtt_password 的#
-
 substitutions:
-  config_version: 'v2019.12.19.001'
+  config_version: 'v2019.12.26.001'
   #设备名称（多个dc1改成不一样的，API接入和ESPHOME容器会识别这个作为名称显示）
   device_name: phicomm_dc1_mqtt
   #MQTT设备名称（多个dc1改成不一样的，MQTT接入及控制会识别这个）
@@ -90,8 +87,8 @@ mqtt:
   id: mqtt_client
   broker: !secret mqtt_broker
   port: !secret mqtt_port
-  #username: !secret mqtt_username
-  #password: !secret mqtt_password
+  username: !secret mqtt_username
+  password: !secret mqtt_password
   client_id: $device_name
   topic_prefix: $mqtt_topic_prefix
   log_topic:
@@ -124,13 +121,13 @@ i2c:
   sda: GPIO3
   scl: GPIO12
   scan: false
-  frequency: 20kHz
+  #frequency: 20kHz
 
 #------- 接入CAT9554的扩展IO -------
 cat9554:
   id: cat9554_hub
   #address: 0x20
-  #irq_pin: GPIO4
+  irq_pin: GPIO4
 
 #------- 接入CSE7766电量传感器 -------
 uart:
@@ -144,7 +141,7 @@ debug:
 logger:
   #不同的log等级看到的信息详细程度不一样，信息量从少到多依次为
   # NONE、ERROR、WARN、INFO、DEBUG、VERBOSE、VERY_VERBOSE
-  level: DEBUG
+  level: VERY_VERBOSE
   #设置为0关闭通过UART的log输出
   baud_rate: 0
   #通过TTL看log信息，取消注释下面这行，读取接口为RX1，具体见模组接口说明图
@@ -315,6 +312,8 @@ output:
   - platform: gpio
     #继电器3(内部引用，对外隐藏)
     id: realy3
+    #设置启动优先级到IO级，解决断电恢复被重置的问题
+    setup_priority: 900
     pin:
       cat9554: cat9554_hub
       # Use pin number 4
@@ -324,6 +323,7 @@ output:
   - platform: gpio
     #继电器2(内部引用，对外隐藏)
     id: realy2
+    setup_priority: 900
     pin:
       cat9554: cat9554_hub
       # Use pin number 5
@@ -333,6 +333,7 @@ output:
   - platform: gpio
     #继电器1(内部引用，对外隐藏)
     id: realy1
+    setup_priority: 900
     pin:
       cat9554: cat9554_hub
       # Use pin number 6
@@ -342,6 +343,7 @@ output:
   - platform: gpio
     #总继电器(内部引用，对外隐藏)
     id: realy0
+    setup_priority: 900
     pin:
       cat9554: cat9554_hub
       # Use pin number 7
@@ -445,3 +447,4 @@ switch:
     command_topic: "${logo_light}/set"
     internal: false
     inverted: true #翻转
+    
