@@ -13,6 +13,8 @@
 配置文件对应版本更新历史
 
 dc1_homeassistant_api:
+v2019.12.26.001：
+修复bug，感谢老妖对驱动和其他的测试及修复
 
 v2019.12.02.001：
 迁移到1.14版本ESPHome
@@ -23,6 +25,8 @@ v2019.03.28.002：
 
 
 dc1_homeassistant_mqtt:
+v2019.12.26.001：
+修复bug
 
 v2019.12.02.001：
 迁移到1.14版本ESPHome
@@ -40,6 +44,8 @@ v2019.08.26.001：
 ### 3、搭建编译环境及刷固件
 
 - Windows
+
+**以下方法暂时不可用，请勿使用**
 
 [点此查看](https://github.com/Samuel-0-0/esphome-tools-dc1/tree/master)
 
