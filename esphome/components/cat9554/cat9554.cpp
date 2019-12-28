@@ -6,28 +6,23 @@ namespace cat9554 {
 
 static const char *TAG = "cat9554";
 
-static CAT9554Component *instance_;
-static void ICACHE_RAM_ATTR HOT gpio_intr(CAT9554Component **instance) {
-  (*instance)->update_gpio_needed(true);
-}
+static void ICACHE_RAM_ATTR HOT gpio_intr(bool *need_update_gpio) { *need_update_gpio = true; }
 
 void CAT9554Component::setup() {
-  ESP_LOGCONFIG(TAG, "Setting up CAT9554...");
-  ESP_LOGCONFIG(TAG, "    Address: 0x%02X", this->address_);
   if (!this->read_gpio_()) {
     ESP_LOGE(TAG, "CAT9554 not available under 0x%02X", this->address_);
     this->mark_failed();
     return;
   }
 
-  instance_ = this;
-  //this->pin_ = new GPIOInputPin(this->irq_);
-  this->irq_pin_->setup();
-  this->isr_ = this->irq_pin_->to_isr();
-  this->irq_pin_->attach_interrupt(gpio_intr, &instance_, FALLING);
+  if (this->enable_irq_) {
+    this->irq_pin_->setup();
+    this->isr_ = this->irq_pin_->to_isr();
+    this->irq_pin_->attach_interrupt(gpio_intr, &this->update_gpio_, FALLING);
+    this->update_gpio_ = false;
+  }
   this->read_gpio_();
   this->read_config_();
-  this->update_gpio_ = false;
 }
 void CAT9554Component::dump_config() {
   ESP_LOGCONFIG(TAG, "CAT9554:");
@@ -37,7 +32,7 @@ void CAT9554Component::dump_config() {
   }
 }
 bool CAT9554Component::digital_read(uint8_t pin) {
-  if (this->update_gpio_) {
+  if (!this->enable_irq_ || this->update_gpio_) {
     this->read_gpio_();
     this->update_gpio_ = false;
   }
@@ -73,7 +68,7 @@ bool CAT9554Component::read_gpio_() {
 
   bool success;
   uint8_t data;
-  success = this->read_byte(INPUT_REG & 0xff, &data, 1);
+  success = this->read_byte(INPUT_REG, &data, 1);
   if (!success) {
     this->status_set_warning();
     return false;
@@ -87,7 +82,7 @@ bool CAT9554Component::write_gpio_() {
   if (this->is_failed())
     return false;
 
-  if (!this->write_byte(OUTPUT & 0xff, this->output_mask_)) {
+  if (!this->write_byte(OUTPUT_REG, this->output_mask_)) {
     this->status_set_warning();
     return false;
   }
@@ -99,15 +94,15 @@ bool CAT9554Component::config_gpio_() {
   if (this->is_failed())
     return false;
 
-  if (!this->write_byte(INPUT_REG & 0xff, this->config_mask_)) {
+  if (!this->write_byte(INPUT_REG, this->config_mask_)) {
     this->status_set_warning();
     return false;
   }
-  if (!this->write_byte(CONFIG_REG & 0xff, this->config_mask_)) {
+  if (!this->write_byte(CONFIG_REG, this->config_mask_)) {
     this->status_set_warning();
     return false;
   }
-  if (!this->write_byte(INPUT_REG & 0xff, 0x00)) {
+  if (!this->write_byte(INPUT_REG, 0x00)) {
     this->status_set_warning();
     return false;
   }
@@ -116,25 +111,20 @@ bool CAT9554Component::config_gpio_() {
   return true;
 }
 bool CAT9554Component::read_config_() {
+  uint8_t data;
+
   if (this->is_failed())
     return false;
 
-    uint8_t data;
-    if (!this->read_byte(CONFIG_REG & 0xff, &data, 1)) {
-      this->status_set_warning();
-      return false;
-    }
-    this->config_mask_ = data;
+  if (!this->read_byte(CONFIG_REG, &data, 1)) {
+    this->status_set_warning();
+    return false;
+  }
+  this->config_mask_ = data;
 
   this->status_clear_warning();
   return true;
 }
-//CAT9554GPIOInputPin CAT9554Component::make_input_pin(uint8_t pin, uint8_t mode, bool inverted) {
-//  return {this, pin, mode, inverted};
-//}
-//CAT9554GPIOOutputPin CAT9554Component::make_output_pin(uint8_t pin, bool inverted) {
-//  return {this, pin, CAT9554_OUTPUT, inverted};
-//}
 float CAT9554Component::get_setup_priority() const { return setup_priority::IO; }
 
 void CAT9554GPIOPin::setup() { this->pin_mode(this->mode_); }

@@ -83,9 +83,9 @@ i2c:
   frequency: 20kHz
 
 cat9554:
-  - id: cat9554_hub
-    address: 0x20
-    irq_pin: GPIO4
+  id: cat9554_hub
+  #address: 0x20
+  irq_pin: GPIO4
 
 uart:
   rx_pin: GPIO13
@@ -142,7 +142,7 @@ binary_sensor:
       - delayed_off: 40ms
     on_click:
       - min_length: 50ms
-        max_length: 350ms
+        max_length: 500ms
         then:
           - switch.toggle: switch1
   - platform: gpio
@@ -161,7 +161,7 @@ binary_sensor:
       - delayed_off: 40ms
     on_click:
       - min_length: 50ms
-        max_length: 350ms
+        max_length: 500ms
         then:
           - switch.toggle: switch2
   - platform: gpio
@@ -180,7 +180,7 @@ binary_sensor:
       - delayed_off: 40ms
     on_click:
       - min_length: 50ms
-        max_length: 350ms
+        max_length: 500ms
         then:
           - switch.toggle: switch3
   - platform: gpio
@@ -198,7 +198,7 @@ binary_sensor:
       - delayed_off: 40ms
     on_click:
       - min_length: 50ms
-        max_length: 350ms
+        max_length: 500ms
         then:
           - switch.toggle: switch0
   #影子
