@@ -281,7 +281,7 @@ switch:
     name: "${device_name} switch0"
     output: relay0
     id: switch0
-    icon: mdi:power-socket-au
+    icon: mdi:light-switch
     on_turn_on:
       - switch.turn_on: LOGO_light
       - lambda: |-
