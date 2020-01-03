@@ -55,11 +55,15 @@ v2019.08.26.001：
 ```
 # 安装 esphome
 pip install esphome
+```
+
 # 找到安装目录，进入esphome/components
 如：C:\Users\Administrator\AppData\Local\Programs\Python\Python37\Lib\site-packages\esphome\components
 新建cat9554文件夹
 下载[__init__.py](https://github.com/Samuel-0-0/phicomm_dc1-esphome/raw/master/esphome/components/cat9554/__init__.py) [cat9554.cpp](https://github.com/Samuel-0-0/phicomm_dc1-esphome/raw/master/esphome/components/cat9554/cat9554.cpp) [cat9554.h](https://github.com/Samuel-0-0/phicomm_dc1-esphome/raw/master/esphome/components/cat9554/cat9554.h)
 将文件放入新建的文件夹中
+
+```
 # 进入配置文件所在目录
 cd xxxxx
 # 编译固件(xxxxx.yaml为你的配置文件名字)
@@ -74,10 +78,14 @@ esphome xxxxx.yaml upload
 ```
 # 安装 esphome
 pip install esphome
+```
+
 # 找到安装目录，进入esphome/components
 新建cat9554文件夹
 下载[__init__.py](https://github.com/Samuel-0-0/phicomm_dc1-esphome/raw/master/esphome/components/cat9554/__init__.py) [cat9554.cpp](https://github.com/Samuel-0-0/phicomm_dc1-esphome/raw/master/esphome/components/cat9554/cat9554.cpp) [cat9554.h](https://github.com/Samuel-0-0/phicomm_dc1-esphome/raw/master/esphome/components/cat9554/cat9554.h)
 将文件放入新建的文件夹中
+
+```
 # 进入配置文件所在目录
 cd xxxxx
 # 编译固件(xxxxx.yaml为你的配置文件名字)
