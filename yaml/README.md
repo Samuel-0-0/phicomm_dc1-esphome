@@ -11,35 +11,36 @@
 下载配置文件依赖[secrets.yaml](https://github.com/Samuel-0-0/phicomm_dc1-esphome/raw/master/yaml/secrets.yaml)，如果已配置此文件，修改合并到自己的secrets.yaml
 
 #### 配置文件对应版本更新历史
-
+```
 dc1_homeassistant_api:
 
 v2019.12.26.001：
-
 修复bug，感谢老妖 Github:[SchumyHao](https://github.com/SchumyHao) 的驱动和其他问题修复
 
 v2019.12.02.001：
-
 迁移到1.14版本ESPHome
 
 v2019.03.28.002：
-
 优化按钮，解决重启问题
 
 
 dc1_homeassistant_mqtt:
 
 v2019.12.26.001：
-
 修复bug
-v2019.12.02.001：
 
+v2019.12.02.001：
 迁移到1.14版本ESPHome
 
 v2019.08.26.001：
+感谢花开堪折枝 Github:[yaming116](https://github.com/yaming116) 的mqtt版本修改及测试
 
-感谢花开堪折枝 Github:[yaming116](https://github.com/yaming116) 的mqtt版本修改及测试，使用mqtt时禁止使用api！
+dc1_mqtt:
 
+v2019.12.26.001：
+新增独立的mqtt版本
+
+```
 
 ### 2、修改固件配置文件
 按照自己的情况修改配置文件中substitutions内的参数。其他的配置如果不是很了解就不要去修改了。
@@ -63,16 +64,17 @@ X86系统版本链接：https://share.weiyun.com/5SSczN2 密码：c5qi9h
 
 - MacOS
 
-安装python 3.7.6，打开终端，执行如下命令：（如需python虚拟环境，请自行配置pyenv）
+1. 安装python 3.7.6
+2. 打开终端，执行如下命令：（如需python虚拟环境，请自行配置pyenv）
 
 ```
 # 安装 esphome，使用清华源加速镜像
 pip install -i https://pypi.tuna.tsinghua.edu.cn/simple -U esphome
 ```
 
-找到python安装目录，在__site-packages/esphome/components__新建__cat9554__文件夹，
-下载 [__init__.py](https://github.com/Samuel-0-0/phicomm_dc1-esphome/raw/master/esphome/components/cat9554/__init__.py)、[cat9554.cpp](https://github.com/Samuel-0-0/phicomm_dc1-esphome/raw/master/esphome/components/cat9554/cat9554.cpp)、[cat9554.h](https://github.com/Samuel-0-0/phicomm_dc1-esphome/raw/master/esphome/components/cat9554/cat9554.h) 3个文件并放入新建的文件夹中。
-
+3. 找到python安装目录，在site-packages/esphome/components新建cat9554文件夹，
+4. 下载 [__init__.py](https://github.com/Samuel-0-0/phicomm_dc1-esphome/raw/master/esphome/components/cat9554/__init__.py)、[cat9554.cpp](https://github.com/Samuel-0-0/phicomm_dc1-esphome/raw/master/esphome/components/cat9554/cat9554.cpp)、[cat9554.h](https://github.com/Samuel-0-0/phicomm_dc1-esphome/raw/master/esphome/components/cat9554/cat9554.h) 3个文件并放入新建的文件夹中。
+5. 执行如下命令：
 ```
 # 进入配置文件所在目录
 cd xxxxx
@@ -84,7 +86,7 @@ esphome xxxxx.yaml upload
 
 - Linux
 
-> 与MacOS类似，参考MacOS的方法
+与MacOS类似，参考MacOS的方法
 
 - Docker
 
