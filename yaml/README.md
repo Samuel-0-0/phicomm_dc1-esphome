@@ -50,40 +50,24 @@ v2019.08.26.001：
 
 - Windows
 
-打开CMD，执行如下命令：（如需python虚拟环境，请自行配置virtualenv）
+工具
 
-```
-# 安装 esphome
-pip install esphome
-```
+X64系统版本链接：https://share.weiyun.com/5Ptdg0A 密码：xwpbqi
+X86系统版本链接：https://share.weiyun.com/5SSczN2 密码：c5qi9h
 
-# 找到安装目录，进入esphome/components
-如：C:\Users\Administrator\AppData\Local\Programs\Python\Python37\Lib\site-packages\esphome\components
-新建cat9554文件夹
-下载[__init__.py](https://github.com/Samuel-0-0/phicomm_dc1-esphome/raw/master/esphome/components/cat9554/__init__.py) [cat9554.cpp](https://github.com/Samuel-0-0/phicomm_dc1-esphome/raw/master/esphome/components/cat9554/cat9554.cpp) [cat9554.h](https://github.com/Samuel-0-0/phicomm_dc1-esphome/raw/master/esphome/components/cat9554/cat9554.h)
-将文件放入新建的文件夹中
 
-```
-# 进入配置文件所在目录
-cd xxxxx
-# 编译固件(xxxxx.yaml为你的配置文件名字)
-esphome xxxxx.yaml compile
-# 刷固件（线刷或者OTA皆可）
-esphome xxxxx.yaml upload
-```
 - MacOS
 
-打开终端，执行如下命令：（如需python虚拟环境，请自行配置virtualenv）
+安装python 3.7.6
+打开终端，执行如下命令：（如需python虚拟环境，请自行配置pyenv）
 
 ```
 # 安装 esphome
-pip install esphome
+pip install -i https://pypi.tuna.tsinghua.edu.cn/simple -U esphome
 ```
 
-# 找到安装目录，进入esphome/components
-新建cat9554文件夹
-下载[__init__.py](https://github.com/Samuel-0-0/phicomm_dc1-esphome/raw/master/esphome/components/cat9554/__init__.py) [cat9554.cpp](https://github.com/Samuel-0-0/phicomm_dc1-esphome/raw/master/esphome/components/cat9554/cat9554.cpp) [cat9554.h](https://github.com/Samuel-0-0/phicomm_dc1-esphome/raw/master/esphome/components/cat9554/cat9554.h)
-将文件放入新建的文件夹中
+找到python安装目录，在[site-packages/esphome/components] 新建[cat9554]文件夹
+下载文件并放入新建的文件夹中：[__init__.py](https://github.com/Samuel-0-0/phicomm_dc1-esphome/raw/master/esphome/components/cat9554/__init__.py)、[cat9554.cpp](https://github.com/Samuel-0-0/phicomm_dc1-esphome/raw/master/esphome/components/cat9554/cat9554.cpp)、[cat9554.h](https://github.com/Samuel-0-0/phicomm_dc1-esphome/raw/master/esphome/components/cat9554/cat9554.h)
 
 ```
 # 进入配置文件所在目录
@@ -99,8 +83,6 @@ esphome xxxxx.yaml upload
 > 与MacOS类似，参考MacOS的方法
 
 - Docker
-
-**临时使用方法**
 
 > 注意！多个配置文件放在一起除了改文件名还要改device_name: XXX，不能出现device_name重复的现象
 1. 安装[官方esphome容器](https://hub.docker.com/r/esphome/esphome)，方法参考其上
