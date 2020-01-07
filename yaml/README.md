@@ -9,30 +9,24 @@
 > - [dc1_mqtt](https://github.com/Samuel-0-0/phicomm_dc1-esphome/raw/master/yaml/dc1_mqtt.yaml)：用于接入其他mqtt平台
 
 > 下载配置文件依赖[secrets.yaml](https://github.com/Samuel-0-0/phicomm_dc1-esphome/raw/master/yaml/secrets.yaml)，如果已配置此文件，修改合并到自己的secrets.yaml
-```
-配置文件对应版本更新历史
 
-dc1_homeassistant_api:
-v2019.12.26.001：
-修复bug，感谢老妖对驱动和其他的测试及修复
+#### 配置文件对应版本更新历史
 
-v2019.12.02.001：
-迁移到1.14版本ESPHome
+> dc1_homeassistant_api:
+> v2019.12.26.001：
+> 修复bug，感谢老妖 Github:[SchumyHao](https://github.com/SchumyHao) 的驱动和其他问题修复
+> v2019.12.02.001：
+> 迁移到1.14版本ESPHome
+> v2019.03.28.002：
+> 优化按钮，解决重启问题
 
-v2019.03.28.002：
-编译固件前请更新esphome及esphome-core到最新版本！
-1、优化按钮，解决重启问题
-
-
-dc1_homeassistant_mqtt:
-v2019.12.26.001：
-修复bug
-
-v2019.12.02.001：
-迁移到1.14版本ESPHome
-
-v2019.08.26.001：
-感谢[yaming116](https://github.com/yaming116) QQ昵称：花开堪折枝的mqtt版本修改及测试，使用mqtt时禁止使用api！
+> dc1_homeassistant_mqtt:
+> v2019.12.26.001：
+> 修复bug
+> v2019.12.02.001：
+> 迁移到1.14版本ESPHome
+> v2019.08.26.001：
+> 感谢花开堪折枝 Github:[yaming116](https://github.com/yaming116) 的mqtt版本修改及测试，使用mqtt时禁止使用api！
 
 
 ```
