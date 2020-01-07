@@ -52,22 +52,22 @@ v2019.08.26.001：
 
 工具
 
+```
 X64系统版本链接：https://share.weiyun.com/5Ptdg0A 密码：xwpbqi
 X86系统版本链接：https://share.weiyun.com/5SSczN2 密码：c5qi9h
-
+```
 
 - MacOS
 
-安装python 3.7.6
-打开终端，执行如下命令：（如需python虚拟环境，请自行配置pyenv）
+安装python 3.7.6，打开终端，执行如下命令：（如需python虚拟环境，请自行配置pyenv）
 
 ```
-# 安装 esphome
+# 安装 esphome，使用清华源加速镜像
 pip install -i https://pypi.tuna.tsinghua.edu.cn/simple -U esphome
 ```
 
-找到python安装目录，在[site-packages/esphome/components] 新建[cat9554]文件夹
-下载文件并放入新建的文件夹中：[__init__.py](https://github.com/Samuel-0-0/phicomm_dc1-esphome/raw/master/esphome/components/cat9554/__init__.py)、[cat9554.cpp](https://github.com/Samuel-0-0/phicomm_dc1-esphome/raw/master/esphome/components/cat9554/cat9554.cpp)、[cat9554.h](https://github.com/Samuel-0-0/phicomm_dc1-esphome/raw/master/esphome/components/cat9554/cat9554.h)
+找到python安装目录，在__site-packages/esphome/components__新建__cat9554__文件夹，
+下载 [__init__.py](https://github.com/Samuel-0-0/phicomm_dc1-esphome/raw/master/esphome/components/cat9554/__init__.py)、[cat9554.cpp](https://github.com/Samuel-0-0/phicomm_dc1-esphome/raw/master/esphome/components/cat9554/cat9554.cpp)、[cat9554.h](https://github.com/Samuel-0-0/phicomm_dc1-esphome/raw/master/esphome/components/cat9554/cat9554.h) 3个文件并放入新建的文件夹中。
 
 ```
 # 进入配置文件所在目录
