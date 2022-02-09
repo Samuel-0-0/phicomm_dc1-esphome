@@ -14,7 +14,7 @@ esphome:
 substitutions:
   config_version: 'v2019.12.26.001'
   #设备名称（多个dc1改成不一样的，API接入和ESPHOME容器会识别这个作为名称显示）
-  device_name: phicomm_dc1_api
+  device_name: dc101
   #如果SSID是隐藏的，设置为true
   wifi_fast_connect: 'false'
   #WiFi离线多久后重启设备，秒s/分钟min/小时h，不需要此功能设置为0s，建议设置0s，防止异常重启，或者设置的大一些
